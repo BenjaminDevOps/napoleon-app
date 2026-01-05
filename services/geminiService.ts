@@ -43,11 +43,21 @@ export const generateNapoleonResponse = async (history: Message[], lang: AppLang
     systemInstruction: getSystemInstruction(lang),
   });
 
-  // Convertir l'historique au format Gemini
-  const chatHistory = history.slice(0, -1).map(msg => ({
-    role: msg.role === 'user' ? 'user' : 'model',
-    parts: [{ text: msg.content }],
-  }));
+  // Filtrer l'historique : exclure le dernier message et les messages initiaux de l'assistant
+  // L'historique doit commencer par un message 'user'
+  const allMessages = history.slice(0, -1);
+  const chatHistory = allMessages
+    .filter((msg, index) => {
+      // Garder tous les messages utilisateur
+      if (msg.role === 'user') return true;
+      // Pour les messages assistant, garder seulement s'il y a eu au moins un message utilisateur avant
+      const hasUserBefore = allMessages.slice(0, index).some(m => m.role === 'user');
+      return hasUserBefore;
+    })
+    .map(msg => ({
+      role: msg.role === 'user' ? 'user' as const : 'model' as const,
+      parts: [{ text: msg.content }],
+    }));
 
   const chat = model.startChat({
     history: chatHistory,
