@@ -4,7 +4,7 @@
 
 ### Étape 1 : Obtenir une clé API
 
-1. Rendez-vous sur [Google AI Studio](https://makersuite.google.com/app/apikey)
+1. Rendez-vous sur [Google AI Studio](https://aistudio.google.com/app/apikey)
 2. Connectez-vous avec votre compte Google
 3. Créez une nouvelle clé API
 4. Copiez la clé générée

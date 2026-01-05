@@ -16,7 +16,7 @@ Application mobile interactive basée sur les enseignements de Napoleon Hill, l'
 ### Prérequis
 
 - Node.js 18+ et npm
-- Une clé API Google Gemini ([Obtenir ici](https://makersuite.google.com/app/apikey))
+- Une clé API Google Gemini ([Obtenir ici](https://aistudio.google.com/app/apikey))
 
 ### Installation
 

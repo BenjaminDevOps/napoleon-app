@@ -66,7 +66,7 @@ Le projet a une **empreinte minimale de dépendances** avec uniquement des packa
 #### Dépendances de Production (4 packages)
 ```json
 {
-  "@google/genai": "^1.34.0",           // ⚠️ Voir note ci-dessous
+  "@google/generative-ai": "^0.21.0",    // ✅ Essentiel - API Google Gemini
   "react": "^19.0.0",                    // ✅ Essentiel
   "react-dom": "^19.0.0",                // ✅ Essentiel
   "cordova-plugin-purchase": "^13.11.0"  // ✅ Essentiel pour la facturation
@@ -88,25 +88,19 @@ Le projet a une **empreinte minimale de dépendances** avec uniquement des packa
 }
 ```
 
-### ⚠️ Problème Potentiel : `@google/genai`
+### ✅ Service Google Gemini Implémenté
 
-**Constat :** Le package `@google/genai` est déclaré dans les dépendances mais semble **inutilisé** dans le codebase.
+**Statut :** Le package `@google/generative-ai` est correctement utilisé dans le codebase.
 
-**Preuves :**
-- Aucun import de `@google/genai` trouvé dans les fichiers sources
-- `services/geminiService.ts` est vide (0 octets)
-- Le composant ChatWindow appelle `generateNapoleonResponse` mais l'implémentation est manquante
+**Utilisation :**
+- ✅ Service implémenté dans `services/geminiService.ts`
+- ✅ Intégration complète avec l'API Google Gemini 1.5 Flash
+- ✅ Support multilingue (FR/EN/ES)
+- ✅ Gestion des erreurs avec messages personnalisés
 
-**Impact :**
-- Taille du bundle : Ajoute un poids inutile aux builds de production
-- Coût : Dépendance inutilisée qui nécessite de la maintenance
-
-**Recommandation :**
-1. **Si vous prévoyez de l'utiliser :** Implémenter la fonctionnalité manquante dans `geminiService.ts`
-2. **Si non nécessaire :** Le supprimer pour réduire la taille du bundle
-   ```bash
-   npm uninstall @google/genai
-   ```
+**Configuration requise :**
+- Variable d'environnement `VITE_GEMINI_API_KEY` dans `.env.local`
+- Clé API Google Gemini (obtenir sur https://aistudio.google.com/app/apikey)
 
 ---
 
