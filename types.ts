@@ -15,4 +15,5 @@ export interface UserProfile {
   language: AppLanguage;
 }
 
-export const MAX_FREE_MESSAGES = 5;
+// En mode développement, augmenter la limite pour faciliter les tests
+export const MAX_FREE_MESSAGES = import.meta.env.DEV ? 1000 : 5;
