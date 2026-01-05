@@ -21,11 +21,20 @@ const getSystemInstruction = (lang: AppLanguage) => {
 };
 
 export const generateNapoleonResponse = async (history: Message[], lang: AppLanguage): Promise<string> => {
-  const apiKey = process.env.API_KEY;
+  // Vite expose les variables d'environnement via import.meta.env
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   if (!apiKey) {
-    console.error("CRITICAL ERROR: API_KEY is missing from environment. Ensure it is defined in .env and run 'npm run build'.");
-    return "The path to success encounters temporary resistance. Please check your connection, my friend.";
+    console.error("CRITICAL ERROR: VITE_GEMINI_API_KEY is missing from environment. Ensure it is defined in .env.local");
+
+    // Messages d'erreur spécifiques selon la langue
+    const configMessages = {
+      en: "Configuration error: Please add VITE_GEMINI_API_KEY to your .env.local file",
+      fr: "Erreur de configuration : Veuillez ajouter VITE_GEMINI_API_KEY à votre fichier .env.local",
+      es: "Error de configuración: Por favor agregue VITE_GEMINI_API_KEY a su archivo .env.local"
+    };
+
+    return configMessages[lang] || configMessages.en;
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);

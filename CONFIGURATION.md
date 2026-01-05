@@ -22,10 +22,12 @@
 
 2. Ouvrez le fichier `.env.local` et ajoutez votre clé API :
    ```
-   GEMINI_API_KEY=votre_clé_api_ici
+   VITE_GEMINI_API_KEY=votre_clé_api_ici
    ```
 
-   **Important** : Remplacez `votre_clé_api_ici` par votre vraie clé API.
+   **Important** :
+   - Le préfixe `VITE_` est **obligatoire** pour que Vite expose la variable
+   - Remplacez `votre_clé_api_ici` par votre vraie clé API
 
 ### Étape 3 : Installer les dépendances
 
@@ -97,21 +99,19 @@ Pour déployer sur Android :
    npm run build
    ```
 
-### Erreur "API_KEY is missing"
+### Erreur "VITE_GEMINI_API_KEY is missing"
 
 Cela signifie que Vite n'a pas trouvé la clé API. Vérifiez :
 
-1. Le fichier `.env.local` est bien à la racine du projet
-2. Le nom de la variable est exactement `GEMINI_API_KEY` (sensible à la casse)
-3. Il n'y a pas d'espace avant ou après le `=`
-4. Vous avez bien relancé `npm run dev` après avoir créé le fichier
+1. Le fichier `.env.local` est bien à la racine du projet (même niveau que `package.json`)
+2. Le nom de la variable est exactement `VITE_GEMINI_API_KEY` (sensible à la casse)
+3. Le préfixe `VITE_` est présent (requis par Vite)
+4. Il n'y a pas d'espace avant ou après le `=`
+5. Vous avez bien relancé `npm run dev` après avoir créé le fichier
 
-### Variables d'environnement supportées
+### Pourquoi VITE_ ?
 
-L'application accepte ces noms de variables (par ordre de priorité) :
-- `GEMINI_API_KEY` ✅ (recommandé)
-- `API_KEY`
-- `VITE_GEMINI_API_KEY`
+Vite requiert le préfixe `VITE_` pour toutes les variables d'environnement exposées au code client. C'est une mesure de sécurité pour éviter d'exposer accidentellement des secrets serveur.
 
 ## 🔒 Sécurité
 
