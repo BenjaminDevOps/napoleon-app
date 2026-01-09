@@ -13,43 +13,54 @@ export const initBilling = (onPurchaseSuccess: () => void) => {
     return;
   }
 
-  const { store, ProductType, Platform } = CdvPurchase;
+  try {
+    const { store, ProductType, Platform } = CdvPurchase;
 
-  // Configuration du produit
-  store.register([{
-    id: PRODUCT_ID,
-    type: ProductType.PAID_SUBSCRIPTION,
-    platform: Platform.GOOGLE_PLAY, // Ajusté dynamiquement par le plugin sur iOS
-  }]);
-
-  // Gestion de la validation et des états
-  store.when()
-    .approved((transaction: any) => {
-      console.log("Achat approuvé");
-      transaction.verify();
-    })
-    .verified((receipt: any) => {
-      console.log("Achat vérifié");
-      receipt.finish();
-      onPurchaseSuccess();
+    // Configuration du produit avec l'API v13+
+    store.register({
+      id: PRODUCT_ID,
+      type: ProductType.PAID_SUBSCRIPTION,
+      platform: Platform.GOOGLE_PLAY, // Ajusté dynamiquement par le plugin sur iOS
     });
 
-  // Vérification de l'abonnement au démarrage
-  store.initialize([Platform.GOOGLE_PLAY, Platform.APPLE_APPSTORE]);
-  
-  store.ready(() => {
-    const product = store.get(PRODUCT_ID);
-    if (product && product.owned) {
-      onPurchaseSuccess();
-    }
-  });
+    // Gestion de la validation et des états
+    store.when()
+      .approved((transaction: any) => {
+        console.log("Achat approuvé");
+        transaction.verify();
+      })
+      .verified((receipt: any) => {
+        console.log("Achat vérifié");
+        receipt.finish();
+        onPurchaseSuccess();
+      });
+
+    // Vérification de l'abonnement au démarrage
+    store.initialize([Platform.GOOGLE_PLAY, Platform.APPLE_APPSTORE]);
+
+    store.ready(() => {
+      const product = store.get(PRODUCT_ID);
+      if (product && product.owned) {
+        onPurchaseSuccess();
+      }
+    });
+  } catch (error) {
+    console.error("Billing initialization error:", error);
+    // En cas d'erreur, ne pas planter l'app
+  }
 };
 
 export const requestPurchase = () => {
   if (typeof CdvPurchase !== 'undefined') {
-    const { store } = CdvPurchase;
-    store.order(PRODUCT_ID);
+    try {
+      const { store } = CdvPurchase;
+      store.order(PRODUCT_ID);
+    } catch (error) {
+      console.error("Purchase request error:", error);
+      alert("Error initiating purchase. Please try again.");
+    }
   } else {
-    alert("Simulation: Purchase requested in browser environment.");
+    console.log("Simulation: Purchase requested in browser environment.");
+    alert("Purchase simulation (browser mode)");
   }
 };
