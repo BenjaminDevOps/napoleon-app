@@ -39,7 +39,7 @@ export const generateNapoleonResponse = async (history: Message[], lang: AppLang
 
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({
-    model: "gemini-pro",
+    model: "gemini-2.5-flash-lite",
     systemInstruction: getSystemInstruction(lang),
   });
 
