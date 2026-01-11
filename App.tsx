@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ChatWindow from './components/ChatWindow';
 import SubscriptionModal from './components/SubscriptionModal';
 import LandingPage from './components/LandingPage';
-import { UserProfile, MAX_FREE_MESSAGES, AppLanguage } from './types';
+import { UserProfile, MAX_FREE_MESSAGES, AppLanguage, IS_DEV_MODE } from './types';
 import { initBilling } from './services/billingService';
 
 const App: React.FC = () => {
@@ -43,9 +43,10 @@ const App: React.FC = () => {
   };
 
   const incrementMessageCount = () => {
-    if (user.isPremium) return true;
+    // En mode dev, pas de limite
+    if (IS_DEV_MODE || user.isPremium) return true;
 
-    // Si on a déjà atteint ou dépassé la limite de 5
+    // Si on a déjà atteint ou dépassé la limite
     if (user.messageCount >= MAX_FREE_MESSAGES) {
       setShowPaywall(true);
       return false;
@@ -53,6 +54,10 @@ const App: React.FC = () => {
 
     setUser(prev => ({ ...prev, messageCount: prev.messageCount + 1 }));
     return true;
+  };
+
+  const resetMessageCount = () => {
+    setUser(prev => ({ ...prev, messageCount: 0 }));
   };
 
   if (!hasStarted) {
@@ -64,6 +69,18 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-[#1a2b48] overflow-hidden">
+      {IS_DEV_MODE && (
+        <div className="bg-yellow-500 text-black px-3 py-1 text-xs text-center flex justify-between items-center">
+          <span>🔧 DEV MODE - Limite: {MAX_FREE_MESSAGES} messages</span>
+          <button
+            onClick={resetMessageCount}
+            className="bg-black text-yellow-500 px-2 py-0.5 rounded text-xs hover:bg-gray-800"
+          >
+            Reset Count ({user.messageCount})
+          </button>
+        </div>
+      )}
+
       <ChatWindow
         user={user}
         onMessageSent={incrementMessageCount}

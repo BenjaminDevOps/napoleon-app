@@ -15,5 +15,9 @@ export interface UserProfile {
   language: AppLanguage;
 }
 
-// En mode développement, augmenter la limite pour faciliter les tests
-export const MAX_FREE_MESSAGES = import.meta.env.DEV ? 1000 : 5;
+// Mode développement : détecté par variable d'environnement
+// Pour activer le mode dev, créez un fichier .env.local avec: VITE_DEV_MODE=true
+export const IS_DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
+// En mode développement, limite très élevée pour faciliter les tests
+export const MAX_FREE_MESSAGES = IS_DEV_MODE ? 9999 : 5;
