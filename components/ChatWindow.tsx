@@ -52,14 +52,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
       <header className="px-6 py-4 bg-[#1a2b48] border-b border-white/10 flex items-center justify-between shrink-0 pt-[env(safe-area-inset-top)]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-white shadow-lg shrink-0">
-            <img 
-              src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=100&h=100&auto=format&fit=crop" 
-              className="grayscale w-full h-full object-cover" 
-              alt="Napoleon Hill" 
+            <img
+              src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=100&h=100&auto=format&fit=crop"
+              className="grayscale w-full h-full object-cover"
+              alt="The Mastermind"
             />
           </div>
           <div className="overflow-hidden">
-            <h2 className="font-serif font-bold text-base text-white truncate">Napoleon Hill</h2>
+            <h2 className="font-serif font-bold text-base text-white truncate">The Mastermind</h2>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
               <span className="text-[9px] text-[#d4af37] uppercase tracking-widest font-bold">Online</span>
