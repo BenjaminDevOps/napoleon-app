@@ -101,25 +101,25 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
       {/* Input / Action Area */}
       <div className="p-4 bg-[#1a2b48] border-t border-white/5 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
         {isLimited ? (
-          <button 
-            onClick={onUpgrade} 
+          <button
+            onClick={onUpgrade}
             className="w-full btn-gold shimmer py-4 rounded-xl font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl active:scale-[0.98] transition-transform"
           >
             {t.unlock}
           </button>
         ) : (
-          <div className="flex gap-2 items-center bg-white/5 rounded-2xl px-4 py-1 border border-white/10 focus-within:border-[#d4af37]/50 focus-within:bg-white/10 transition-all shadow-inner">
+          <div className="flex gap-2 items-center bg-white/5 rounded-2xl px-4 py-1 border-2 border-[#d4af37]/40 focus-within:border-[#d4af37] focus-within:bg-white/10 transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)]">
             <input
-              type="text" 
+              type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder={t.placeholder}
-              className="flex-1 bg-transparent border-none focus:outline-none text-white text-base py-3 placeholder:text-white/20"
+              className="flex-1 bg-transparent border-none focus:outline-none text-white text-base py-3 placeholder:text-white/30 placeholder:font-light"
             />
-            <button 
-              onClick={handleSend} 
-              disabled={!input.trim() || isTyping} 
+            <button
+              onClick={handleSend}
+              disabled={!input.trim() || isTyping}
               className={`p-2 rounded-full transition-all ${input.trim() && !isTyping ? 'text-[#d4af37] active:scale-90' : 'text-white/10'}`}
             >
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg">
