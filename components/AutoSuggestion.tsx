@@ -21,6 +21,8 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
   });
 
   const [isEditing, setIsEditing] = useState(!data.phrase);
+  const [tempPhrase, setTempPhrase] = useState(data.phrase);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('autosuggestion_data', JSON.stringify(data));
@@ -28,7 +30,14 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
 
   const handleRepeat = () => {
     if (data.count < data.dailyGoal) {
-      setData(prev => ({ ...prev, count: prev.count + 1 }));
+      const newCount = data.count + 1;
+      setData(prev => ({ ...prev, count: newCount }));
+
+      // Confettis quand on atteint 10
+      if (newCount === data.dailyGoal) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 3000);
+      }
     }
   };
 
@@ -36,9 +45,16 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
     setData(prev => ({ ...prev, count: 0 }));
   };
 
-  const handleSavePhrase = (newPhrase: string) => {
-    setData(prev => ({ ...prev, phrase: newPhrase, count: 0 }));
-    setIsEditing(false);
+  const handleSavePhrase = () => {
+    if (tempPhrase.trim()) {
+      setData(prev => ({ ...prev, phrase: tempPhrase.trim(), count: 0 }));
+      setIsEditing(false);
+    }
+  };
+
+  const handleEditPhrase = () => {
+    setTempPhrase(data.phrase);
+    setIsEditing(true);
   };
 
   const translations = {
@@ -88,7 +104,38 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
   const isComplete = data.count >= data.dailyGoal;
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-[#1a2b48] to-[#121c2f] p-6 overflow-y-auto">
+    <div className="flex flex-col h-full bg-gradient-to-b from-[#1a2b48] to-[#121c2f] p-6 overflow-y-auto relative">
+      {/* Confetti Effect */}
+      {showConfetti && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-fall"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: '-10px',
+                animationDelay: `${Math.random() * 0.5}s`,
+                animationDuration: `${2 + Math.random() * 1}s`,
+              }}
+            >
+              {['🎉', '⭐', '✨', '🌟', '💫'][i % 5]}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <style>{`
+        @keyframes fall {
+          to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+          }
+        }
+        .animate-fall {
+          animation: fall linear forwards;
+        }
+      `}</style>
       {/* Header */}
       <div className="text-center mb-8 pt-[env(safe-area-inset-top)]">
         <h1 className="font-serif text-3xl font-black text-[#d4af37] mb-2 uppercase tracking-wider">
@@ -108,17 +155,24 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
       {isEditing ? (
         <div className="mb-6">
           <textarea
-            defaultValue={data.phrase}
+            value={tempPhrase}
+            onChange={(e) => setTempPhrase(e.target.value)}
             placeholder={t.placeholder}
             className="w-full bg-white/5 border-2 border-[#d4af37]/40 rounded-xl p-4 text-white text-base leading-relaxed focus:outline-none focus:border-[#d4af37] min-h-[120px] resize-none"
-            onBlur={(e) => {
-              if (e.target.value.trim()) {
-                handleSavePhrase(e.target.value.trim());
-              }
-            }}
             autoFocus
           />
-          <p className="text-white/40 text-xs mt-2 italic">{t.example}</p>
+          <p className="text-white/40 text-xs mt-2 italic mb-3">{t.example}</p>
+          <button
+            onClick={handleSavePhrase}
+            disabled={!tempPhrase.trim()}
+            className={`w-full py-3 rounded-xl font-bold uppercase tracking-wider text-sm transition-all ${
+              tempPhrase.trim()
+                ? 'btn-gold active:scale-95'
+                : 'bg-white/5 text-white/30 cursor-not-allowed'
+            }`}
+          >
+            {t.save}
+          </button>
         </div>
       ) : (
         <div className="mb-6">
@@ -127,7 +181,7 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
               "{data.phrase}"
             </p>
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={handleEditPhrase}
               className="text-[#d4af37] text-xs uppercase tracking-wider hover:underline mx-auto block"
             >
               {t.edit}
@@ -158,8 +212,11 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
 
           {/* Complete Message */}
           {isComplete && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6 text-center">
-              <p className="text-green-400 font-bold text-sm">{t.complete}</p>
+            <div className="bg-gradient-to-r from-green-500/20 to-[#d4af37]/20 border-2 border-green-500/50 rounded-xl p-4 mb-6 text-center animate-pulse">
+              <p className="text-green-400 font-black text-lg mb-1">{t.complete}</p>
+              <p className="text-white/60 text-xs">
+                {language === 'fr' ? 'Vous maîtrisez votre destin !' : language === 'es' ? '¡Controlas tu destino!' : 'You master your destiny!'}
+              </p>
             </div>
           )}
 
