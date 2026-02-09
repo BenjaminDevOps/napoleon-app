@@ -3,7 +3,7 @@ import { AppLanguage } from './types';
 
 export const translations: Record<AppLanguage, any> = {
   en: {
-    welcome: "Greetings, my friend. I am The Mastermind. I have spent twenty years analyzing the world's most successful men. What is your Definite Chief Aim today?",
+    welcome: "Greetings, my friend. I am The Mastermind. I have spent twenty years studying the principles of personal achievement and success. What is your greatest aspiration?",
     landingTitle: "Think & Grow Positive",
     landingSubtitle: "Whatever the mind can conceive and believe, it can achieve.",
     ctaStart: "Consult the Master",
@@ -18,7 +18,7 @@ export const translations: Record<AppLanguage, any> = {
     maybeLater: "Maybe Later"
   },
   fr: {
-    welcome: "Salutations, mon ami. Je suis The Mastermind. J'ai passé vingt ans à analyser les hommes les plus riches. Quel est votre Objectif Principal défini aujourd'hui ?",
+    welcome: "Salutations, mon ami. Je suis The Mastermind. J'ai passé vingt ans à étudier les principes de la réussite et de l'accomplissement personnel. Quelle est votre plus grande aspiration ?",
     landingTitle: "Réfléchissez et devenez Positif",
     landingSubtitle: "Tout ce que l'esprit peut concevoir et croire, il peut le réaliser.",
     ctaStart: "Consulter le Maître",
@@ -33,7 +33,7 @@ export const translations: Record<AppLanguage, any> = {
     maybeLater: "Plus tard"
   },
   es: {
-    welcome: "Saludos, amigo mío. Soy The Mastermind. He pasado veinte años analizando a los hombres más exitosos. ¿Cuál es su Objetivo Principal hoy?",
+    welcome: "Saludos, amigo mío. Soy The Mastermind. He pasado veinte años estudiando los principios del logro personal y el éxito. ¿Cuál es su mayor aspiración?",
     landingTitle: "Piense y hágase Positivo",
     landingSubtitle: "Lo que la mente puede concebir y creer, puede lograrlo.",
     ctaStart: "Consultar al Maestro",
