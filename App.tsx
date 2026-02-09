@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ChatWindow from './components/ChatWindow';
+import AutoSuggestion from './components/AutoSuggestion';
 import SubscriptionModal from './components/SubscriptionModal';
 import LandingPage from './components/LandingPage';
 import { UserProfile, MAX_FREE_MESSAGES, AppLanguage, IS_DEV_MODE } from './types';
 import { initBilling } from './services/billingService';
 
+type Tab = 'chat' | 'autosuggestion';
+
 const App: React.FC = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>('chat');
 
   const [user, setUser] = useState<UserProfile>(() => {
     try {
@@ -67,6 +71,14 @@ const App: React.FC = () => {
   // L'utilisateur est limité uniquement s'il n'est pas premium ET a envoyé 5 messages ou plus
   const isLimited = !user.isPremium && user.messageCount >= MAX_FREE_MESSAGES;
 
+  const tabTranslations = {
+    en: { chat: 'Chat', autosuggestion: 'Affirmation' },
+    fr: { chat: 'Chat', autosuggestion: 'Affirmation' },
+    es: { chat: 'Chat', autosuggestion: 'Afirmación' },
+  };
+
+  const t = tabTranslations[user.language];
+
   return (
     <div className="flex flex-col h-screen bg-[#1a2b48] overflow-hidden">
       {IS_DEV_MODE && (
@@ -81,12 +93,58 @@ const App: React.FC = () => {
         </div>
       )}
 
-      <ChatWindow
-        user={user}
-        onMessageSent={incrementMessageCount}
-        onUpgrade={() => setShowPaywall(true)}
-        isLimited={isLimited}
-      />
+      {/* Content */}
+      <div className="flex-1 overflow-hidden">
+        {activeTab === 'chat' ? (
+          <ChatWindow
+            user={user}
+            onMessageSent={incrementMessageCount}
+            onUpgrade={() => setShowPaywall(true)}
+            isLimited={isLimited}
+          />
+        ) : (
+          <AutoSuggestion language={user.language} />
+        )}
+      </div>
+
+      {/* Tab Navigation */}
+      <nav className="bg-[#1a2b48] border-t border-white/10 flex pb-[env(safe-area-inset-bottom)]">
+        <button
+          onClick={() => setActiveTab('chat')}
+          className={`flex-1 py-4 flex flex-col items-center gap-1 transition-all ${
+            activeTab === 'chat'
+              ? 'text-[#d4af37]'
+              : 'text-white/40 hover:text-white/60'
+          }`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="w-6 h-6 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" />
+          </svg>
+          <span className="text-[9px] font-bold uppercase tracking-wider">{t.chat}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('autosuggestion')}
+          className={`flex-1 py-4 flex flex-col items-center gap-1 transition-all ${
+            activeTab === 'autosuggestion'
+              ? 'text-[#d4af37]'
+              : 'text-white/40 hover:text-white/60'
+          }`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="w-6 h-6 fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" />
+          </svg>
+          <span className="text-[9px] font-bold uppercase tracking-wider">{t.autosuggestion}</span>
+        </button>
+      </nav>
 
       {showPaywall && (
         <SubscriptionModal
