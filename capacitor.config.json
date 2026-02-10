@@ -1,7 +1,7 @@
 
 {
   "appId": "com.napoleonhill.app",
-  "appName": "Napoleon Hill AI",
+  "appName": "The Mastermind",
   "webDir": "www",
   "bundledWebRuntime": false
 }

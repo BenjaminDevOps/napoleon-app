@@ -9,8 +9,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "cap-add-android": "cap add android",
+    "cap-add-ios": "cap add ios",
     "cap-sync": "cap sync",
+    "cap-sync-ios": "cap sync ios",
     "cap-open-android": "cap open android",
+    "cap-open-ios": "cap open ios",
     "assets:generate": "npx @capacitor/assets generate"
   },
   "dependencies": {
@@ -24,6 +27,7 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^6.2.0",
     "@capacitor/core": "^6.2.0",
+    "@capacitor/ios": "^6.2.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.1",
