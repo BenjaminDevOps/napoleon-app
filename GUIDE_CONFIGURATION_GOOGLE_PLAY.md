@@ -4,7 +4,7 @@
 
 **Message affiché** : "Product not available. Please check your internet connection and try again."
 
-**Cause** : Le produit `sub_mastermind_monthly` n'est pas trouvé dans Google Play Store.
+**Cause** : Le produit `1_mastermind_monthly` n'est pas trouvé dans Google Play Store.
 
 ---
 
@@ -28,9 +28,10 @@
 
 **ID du produit** (TRÈS IMPORTANT ⚠️) :
 ```
-sub_mastermind_monthly
+1_mastermind_monthly
 ```
-⚠️ **Cet ID doit être EXACTEMENT celui-ci, sans espace, sans majuscule**
+⚠️ **Cet ID doit être EXACTEMENT celui-ci, sans espace**
+💡 **Note** : Google Play impose que l'ID commence par un chiffre ou une lettre minuscule
 
 **Nom** :
 ```
@@ -82,7 +83,7 @@ Le produit doit être **ACTIF**, pas en brouillon !
 
 1. Dans la liste des abonnements, vérifier que l'ID est bien :
    ```
-   sub_mastermind_monthly
+   1_mastermind_monthly
    ```
 
 2. Si l'ID est différent, vous avez 2 options :
@@ -201,7 +202,7 @@ Pour voir exactement ce qui se passe :
 
 ```
 🛒 Initializing billing service...
-📦 Product registered: sub_mastermind_monthly
+📦 Product registered: 1_mastermind_monthly
 🔄 Initializing store platforms...
 ✅ Store is ready
 📱 Product updated: [object]
@@ -213,7 +214,7 @@ Pour voir exactement ce qui se passe :
 
 ```
 ✅ Store is ready
-❌ Product sub_mastermind_monthly not found in store
+❌ Product 1_mastermind_monthly not found in store
 ⚠️ Make sure the product is created in Google Play Console and published
 ```
 
@@ -223,8 +224,8 @@ Pour voir exactement ce qui se passe :
 
 Avant de tester, vérifier que :
 
-- [ ] Le produit `sub_mastermind_monthly` existe dans Play Console
-- [ ] L'ID du produit est EXACTEMENT : `sub_mastermind_monthly`
+- [ ] Le produit `1_mastermind_monthly` existe dans Play Console
+- [ ] L'ID du produit est EXACTEMENT : `1_mastermind_monthly`
 - [ ] Le statut du produit est **"Actif"** (pas "Brouillon")
 - [ ] Un prix est défini (ex: 9.99€)
 - [ ] Une version de test est créée (Tests internes ou fermés)
@@ -272,4 +273,4 @@ Envoyez-moi :
 
 **Créé le** : 13 février 2026
 **App** : The Mastermind (Napoleon Hill AI)
-**Product ID** : `sub_mastermind_monthly`
+**Product ID** : `1_mastermind_monthly`

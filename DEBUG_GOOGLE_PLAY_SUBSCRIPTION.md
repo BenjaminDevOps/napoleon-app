@@ -47,7 +47,7 @@ Vous devriez voir ces logs si tout fonctionne :
 
 ```
 🛒 Initializing billing service...
-📦 Product registered: sub_mastermind_monthly
+📦 Product registered: 1_mastermind_monthly
 🔄 Initializing store platforms...
 ✅ Store is ready
 📦 Product loaded: [object Object]
@@ -58,7 +58,7 @@ Vous devriez voir ces logs si tout fonctionne :
 Puis quand vous cliquez sur "S'abonner" :
 
 ```
-🛒 Requesting purchase for: sub_mastermind_monthly
+🛒 Requesting purchase for: 1_mastermind_monthly
 💳 Initiating purchase flow...
 ✅ Purchase order placed
 ```
@@ -75,7 +75,7 @@ Et après le paiement :
 
 ## ❌ Erreurs Possibles et Solutions
 
-### **Erreur 1 : `Product sub_mastermind_monthly not found`**
+### **Erreur 1 : `Product 1_mastermind_monthly not found`**
 
 **Problème** : Le produit n'existe pas dans Google Play Console
 
@@ -83,9 +83,9 @@ Et après le paiement :
 1. Aller sur [Google Play Console](https://play.google.com/console)
 2. Sélectionner votre application
 3. Aller dans **Monétisation → Produits → Abonnements**
-4. Vérifier que le produit **`sub_mastermind_monthly`** existe
+4. Vérifier que le produit **`1_mastermind_monthly`** existe
 5. S'assurer que le produit est **Actif** (pas en brouillon)
-6. Vérifier que l'ID est exactement : `sub_mastermind_monthly`
+6. Vérifier que l'ID est exactement : `1_mastermind_monthly`
 
 ### **Erreur 2 : `Product cannot be purchased. State: ...`**
 
@@ -110,7 +110,7 @@ Et après le paiement :
 
 **Solution** :
 1. Dans Play Console → **Produits → Abonnements**
-2. Ouvrir le produit `sub_mastermind_monthly`
+2. Ouvrir le produit `1_mastermind_monthly`
 3. Vérifier qu'un **prix** est défini
 4. S'assurer que le prix est disponible dans votre pays
 
@@ -169,7 +169,7 @@ Et après le paiement :
 
 Avant de tester l'abonnement :
 
-- [ ] Le produit `sub_mastermind_monthly` existe dans Play Console
+- [ ] Le produit `1_mastermind_monthly` existe dans Play Console
 - [ ] Le produit est **Actif** (pas en brouillon)
 - [ ] Un **prix** est défini pour le produit
 - [ ] Une **piste de test** (interne ou fermée) est créée
@@ -238,4 +238,4 @@ Pour tester sans payer :
 
 **Date** : 13 février 2026
 **Branche** : claude/audit-dependencies-mjzm5qfb33dlhune-V7y6i
-**Produit ID** : sub_mastermind_monthly
+**Produit ID** : 1_mastermind_monthly

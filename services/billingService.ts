@@ -5,7 +5,7 @@
 
 declare const CdvPurchase: any;
 
-export const PRODUCT_ID = 'sub_mastermind_monthly';
+export const PRODUCT_ID = '1_mastermind_monthly';
 
 export const initBilling = (onPurchaseSuccess: () => void) => {
   if (typeof CdvPurchase === 'undefined') {
