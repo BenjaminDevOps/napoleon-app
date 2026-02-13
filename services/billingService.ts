@@ -5,7 +5,10 @@
 
 declare const CdvPurchase: any;
 
-export const PRODUCT_ID = '1_mastermind_monthly';
+// Format Google Play Billing v5+: subscription-id:base-plan-id
+// ID abonnement: sub_mastermind_monthly
+// ID forfait de base: 1-mastermind-monthly
+export const PRODUCT_ID = 'sub_mastermind_monthly:1-mastermind-monthly';
 
 export const initBilling = (onPurchaseSuccess: () => void) => {
   if (typeof CdvPurchase === 'undefined') {

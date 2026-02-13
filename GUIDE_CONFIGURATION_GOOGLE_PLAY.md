@@ -4,7 +4,7 @@
 
 **Message affiché** : "Product not available. Please check your internet connection and try again."
 
-**Cause** : Le produit `1_mastermind_monthly` n'est pas trouvé dans Google Play Store.
+**Cause** : Le produit `sub_mastermind_monthly:1-mastermind-monthly` n'est pas trouvé dans Google Play Store.
 
 ---
 
@@ -26,12 +26,17 @@
 
 #### Configuration du produit :
 
-**ID du produit** (TRÈS IMPORTANT ⚠️) :
+**ID du produit (abonnement)** (TRÈS IMPORTANT ⚠️) :
 ```
-1_mastermind_monthly
+sub_mastermind_monthly
 ```
-⚠️ **Cet ID doit être EXACTEMENT celui-ci, sans espace**
-💡 **Note** : Google Play impose que l'ID commence par un chiffre ou une lettre minuscule
+
+**ID de l'offre (forfait de base)** :
+```
+1-mastermind-monthly
+```
+⚠️ **Ces IDs doivent être EXACTEMENT ceux-ci**
+💡 **Note** : L'ID de l'offre doit commencer par un chiffre ou une lettre minuscule
 
 **Nom** :
 ```
@@ -79,22 +84,15 @@ Le produit doit être **ACTIF**, pas en brouillon !
 
 ---
 
-### **ÉTAPE 5 : Vérifier l'ID du Produit**
+### **ÉTAPE 5 : Vérifier les IDs**
 
-1. Dans la liste des abonnements, vérifier que l'ID est bien :
-   ```
-   1_mastermind_monthly
-   ```
+1. Dans la liste des abonnements, vérifier :
+   - **ID d'abonnement** : `sub_mastermind_monthly`
+   - **ID de forfait de base** : `1-mastermind-monthly`
 
-2. Si l'ID est différent, vous avez 2 options :
-
-   **Option A : Créer un nouveau produit avec le bon ID**
-   - Suivre les étapes 2-4 avec le bon ID
-   - Supprimer l'ancien produit
-
-   **Option B : Modifier le code pour utiliser votre ID**
-   - Me donner l'ID exact de votre produit
-   - Je modifierai le code pour utiliser cet ID
+2. Si les IDs sont différents :
+   - Me donner vos IDs exacts
+   - Je modifierai le code pour utiliser vos IDs
 
 ---
 
@@ -202,7 +200,7 @@ Pour voir exactement ce qui se passe :
 
 ```
 🛒 Initializing billing service...
-📦 Product registered: 1_mastermind_monthly
+📦 Product registered: sub_mastermind_monthly:1-mastermind-monthly
 🔄 Initializing store platforms...
 ✅ Store is ready
 📱 Product updated: [object]
@@ -214,7 +212,7 @@ Pour voir exactement ce qui se passe :
 
 ```
 ✅ Store is ready
-❌ Product 1_mastermind_monthly not found in store
+❌ Product sub_mastermind_monthly:1-mastermind-monthly not found in store
 ⚠️ Make sure the product is created in Google Play Console and published
 ```
 
@@ -224,8 +222,9 @@ Pour voir exactement ce qui se passe :
 
 Avant de tester, vérifier que :
 
-- [ ] Le produit `1_mastermind_monthly` existe dans Play Console
-- [ ] L'ID du produit est EXACTEMENT : `1_mastermind_monthly`
+- [ ] L'abonnement `sub_mastermind_monthly` existe dans Play Console
+- [ ] Le forfait de base `1-mastermind-monthly` est créé
+- [ ] Les IDs sont EXACTEMENT : `sub_mastermind_monthly` et `1-mastermind-monthly`
 - [ ] Le statut du produit est **"Actif"** (pas "Brouillon")
 - [ ] Un prix est défini (ex: 9.99€)
 - [ ] Une version de test est créée (Tests internes ou fermés)
@@ -273,4 +272,6 @@ Envoyez-moi :
 
 **Créé le** : 13 février 2026
 **App** : The Mastermind (Napoleon Hill AI)
-**Product ID** : `1_mastermind_monthly`
+**Product ID complet** : `sub_mastermind_monthly:1-mastermind-monthly`
+- **ID Abonnement** : `sub_mastermind_monthly`
+- **ID Forfait de base** : `1-mastermind-monthly`
