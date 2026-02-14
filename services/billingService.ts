@@ -5,10 +5,11 @@
 
 declare const CdvPurchase: any;
 
-// Format Google Play Billing v5+: subscription-id:base-plan-id
+// Format Google Play Billing : utiliser uniquement l'ID d'abonnement
+// Le plugin cordova-plugin-purchase gère automatiquement les forfaits de base
 // ID abonnement: sub_mastermind_monthly
-// ID forfait de base: 1-mastermind-monthly
-export const PRODUCT_ID = 'sub_mastermind_monthly:1-mastermind-monthly';
+// ID forfait de base dans Google Play Console: 1-mastermind-monthly
+export const PRODUCT_ID = 'sub_mastermind_monthly';
 
 export const initBilling = (onPurchaseSuccess: () => void) => {
   if (typeof CdvPurchase === 'undefined') {
