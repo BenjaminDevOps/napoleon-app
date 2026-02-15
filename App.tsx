@@ -60,10 +60,6 @@ const App: React.FC = () => {
     return true;
   };
 
-  const resetMessageCount = () => {
-    setUser(prev => ({ ...prev, messageCount: 0 }));
-  };
-
   if (!hasStarted) {
     return <LandingPage onStart={handleStart} />;
   }
@@ -81,18 +77,6 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-[#1a2b48] overflow-hidden">
-      {IS_DEV_MODE && (
-        <div className="bg-yellow-500 text-black px-3 py-1 text-xs text-center flex justify-between items-center">
-          <span>🔧 DEV MODE - Limite: {MAX_FREE_MESSAGES} messages</span>
-          <button
-            onClick={resetMessageCount}
-            className="bg-black text-yellow-500 px-2 py-0.5 rounded text-xs hover:bg-gray-800"
-          >
-            Reset Count ({user.messageCount})
-          </button>
-        </div>
-      )}
-
       {/* Content */}
       <div className="flex-1 overflow-hidden">
         {activeTab === 'chat' ? (
