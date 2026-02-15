@@ -49,7 +49,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
   return (
     <div className="flex flex-col h-full bg-[#1a2b48]">
       {/* Header */}
-      <header className="px-6 py-4 bg-[#1a2b48] border-b border-white/10 flex items-center justify-between shrink-0 pt-[env(safe-area-inset-top)]">
+      <header className="px-8 py-5 bg-[#1a2b48] border-b border-white/10 flex items-center justify-between shrink-0 pt-[env(safe-area-inset-top)]">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-white shadow-lg shrink-0">
             <img
