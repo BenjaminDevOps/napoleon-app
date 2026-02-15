@@ -3,7 +3,7 @@ import ChatWindow from './components/ChatWindow';
 import AutoSuggestion from './components/AutoSuggestion';
 import SubscriptionModal from './components/SubscriptionModal';
 import LandingPage from './components/LandingPage';
-import { UserProfile, MAX_FREE_MESSAGES, AppLanguage, IS_DEV_MODE } from './types';
+import { UserProfile, MAX_FREE_MESSAGES, AppLanguage } from './types';
 import { initBilling } from './services/billingService';
 
 type Tab = 'chat' | 'autosuggestion';
@@ -51,17 +51,16 @@ const App: React.FC = () => {
     console.log('[Message Count Debug]', {
       currentCount: user.messageCount,
       limit: MAX_FREE_MESSAGES,
-      isDevMode: IS_DEV_MODE,
       isPremium: user.isPremium
     });
 
-    // En mode dev, pas de limite
-    if (IS_DEV_MODE || user.isPremium) {
-      console.log('[Message Count] Bypassing limit (dev mode or premium)');
+    // Seuls les utilisateurs premium peuvent bypasser la limite
+    if (user.isPremium) {
+      console.log('[Message Count] Bypassing limit (premium user)');
       return true;
     }
 
-    // Si on a déjà atteint ou dépassé la limite
+    // Si on a déjà atteint ou dépassé la limite de 8 messages
     if (user.messageCount >= MAX_FREE_MESSAGES) {
       console.log('[Message Count] Limit reached, showing paywall');
       setShowPaywall(true);
