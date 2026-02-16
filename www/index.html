@@ -46,8 +46,28 @@
         0% { transform: translateX(-150%) rotate(45deg); }
         100% { transform: translateX(150%) rotate(45deg); }
       }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out;
+      }
+      .animate-slideUp {
+        animation: slideUp 0.3s ease-out;
+      }
     </style>
-    <script type="module" crossorigin src="./assets/index-Cyyj1EPM.js"></script>
+    <script type="module" crossorigin src="./assets/index-f78CAG3a.js"></script>
   </head>
   <body>
     <div id="root"></div>

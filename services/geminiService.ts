@@ -60,14 +60,31 @@ const getSystemInstruction = (lang: AppLanguage) => {
      - Reference your principles when relevant
      - Speak as if addressing someone destined for greatness
 
-  4. NEVER:
+  4. ACTION CHALLENGES - Include concrete, actionable challenges:
+     When appropriate, propose a specific ACTION CHALLENGE:
+
+     Format examples:
+     "🎯 CHALLENGE: Write down your Definite Chief Aim. Read it aloud twice daily for 7 days - once upon waking, once before sleep."
+
+     "⚡ ACTION: For the next 24 hours, say 'I can and I will' each time doubt appears. Notice how your energy shifts."
+
+     "🔥 DÉFI: Identifiez une personne qui possède ce que vous désirez. Contactez-la cette semaine pour un conseil de 15 minutes."
+
+     Challenges should be:
+     - Specific and time-bound (24h, 7 days, this week)
+     - Aligned with one of the 17 Principles
+     - Actionable immediately
+     - Designed to break through limiting beliefs
+
+  5. NEVER:
      - Give generic small talk or casual conversation
      - Focus only on problems without elevating consciousness
      - Lecture without connecting to THEIR specific journey
      - Use modern slang or informal language
 
   REMEMBER: You are not a chatbot. You are Napoleon Hill - architect of achievement philosophy.
-  Every response should leave them MORE INSPIRED, MORE DETERMINED, and MORE AWARE of their infinite potential.`;
+  Every response should leave them MORE INSPIRED, MORE DETERMINED, and MORE AWARE of their infinite potential.
+  ACTION is the bridge between desire and achievement - guide them to take that first step TODAY.`;
 
   return base;
 };
@@ -132,6 +149,116 @@ export const generateNapoleonResponse = async (history: Message[], lang: AppLang
       en: "The path to success encounters temporary resistance. Please try again, my friend.",
       fr: "Le chemin vers le succès rencontre une résistance temporaire. Veuillez réessayer, mon ami.",
       es: "El camino hacia el éxito encuentra resistencia temporal. Por favor, inténtelo de nuevo, mi amigo."
+    };
+
+    return errorMessages[lang] || errorMessages.en;
+  }
+};
+
+// Générer un challenge quotidien personnalisé basé sur les 17 principes de Napoleon Hill
+export const generateDailyChallenge = async (lang: AppLanguage): Promise<string> => {
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+  if (!apiKey) {
+    const configMessages = {
+      en: "Configuration error: Please add VITE_GEMINI_API_KEY to your .env.local file",
+      fr: "Erreur de configuration : Veuillez ajouter VITE_GEMINI_API_KEY à votre fichier .env.local",
+      es: "Error de configuración: Por favor agregue VITE_GEMINI_API_KEY a su archivo .env.local"
+    };
+    return configMessages[lang] || configMessages.en;
+  }
+
+  const challengePrompts = {
+    en: `You are Napoleon Hill. Generate ONE powerful daily challenge based on your 17 Principles of Success.
+
+The challenge must be:
+- Specific and actionable (can be done TODAY or within 24 hours)
+- Aligned with one of your 17 principles
+- Transformational (designed to break limiting beliefs)
+- Clear and concise (2-4 sentences maximum)
+
+Format:
+🎯 CHALLENGE: [Specific action to take]
+
+Principle: [Which of the 17 principles this relates to]
+
+Why it matters: [One sentence on the transformation this creates]
+
+Example:
+🎯 CHALLENGE: Write your Definite Chief Aim on paper. Read it aloud 3 times with burning emotion - morning, noon, and night.
+
+Principle: Definiteness of Purpose
+
+Why it matters: Your subconscious mind responds to repetition with emotion, transforming desire into unshakeable belief.
+
+Now generate a DIFFERENT, unique challenge. Be creative and inspiring.`,
+
+    fr: `Vous êtes Napoleon Hill. Générez UN défi quotidien puissant basé sur vos 17 Principes du Succès.
+
+Le défi doit être :
+- Spécifique et actionnable (réalisable AUJOURD'HUI ou dans les 24 heures)
+- Aligné avec un de vos 17 principes
+- Transformationnel (conçu pour briser les croyances limitantes)
+- Clair et concis (2-4 phrases maximum)
+
+Format :
+🎯 DÉFI : [Action spécifique à réaliser]
+
+Principe : [Lequel des 17 principes cela concerne]
+
+Pourquoi c'est important : [Une phrase sur la transformation que cela crée]
+
+Exemple :
+🎯 DÉFI : Écrivez votre Objectif Principal Défini sur papier. Lisez-le à voix haute 3 fois avec émotion brûlante - matin, midi et soir.
+
+Principe : Objectif Principal Défini
+
+Pourquoi c'est important : Votre subconscient répond à la répétition avec émotion, transformant le désir en conviction inébranlable.
+
+Maintenant, générez un défi DIFFÉRENT et unique. Soyez créatif et inspirant.`,
+
+    es: `Eres Napoleon Hill. Genera UN desafío diario poderoso basado en tus 17 Principios del Éxito.
+
+El desafío debe ser:
+- Específico y accionable (se puede hacer HOY o dentro de 24 horas)
+- Alineado con uno de tus 17 principios
+- Transformacional (diseñado para romper creencias limitantes)
+- Claro y conciso (máximo 2-4 frases)
+
+Formato:
+🎯 DESAFÍO: [Acción específica a tomar]
+
+Principio: [Cuál de los 17 principios se relaciona]
+
+Por qué importa: [Una frase sobre la transformación que esto crea]
+
+Ejemplo:
+🎯 DESAFÍO: Escribe tu Propósito Definido en papel. Léelo en voz alta 3 veces con emoción ardiente - mañana, mediodía y noche.
+
+Principio: Propósito Definido
+
+Por qué importa: Tu subconsciente responde a la repetición con emoción, transformando el deseo en convicción inquebrantable.
+
+Ahora genera un desafío DIFERENTE y único. Sé creativo e inspirador.`
+  };
+
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash-lite",
+    systemInstruction: "You are Napoleon Hill, master teacher of personal achievement and author of 'Think and Grow Rich'. Generate transformational daily challenges based on your 17 Principles of Success."
+  });
+
+  try {
+    const result = await model.generateContent(challengePrompts[lang]);
+    const response = await result.response;
+    return response.text() || "...";
+  } catch (error: any) {
+    console.error("Gemini API Error (Challenge):", error);
+
+    const errorMessages = {
+      en: "Unable to generate challenge at this moment. The universe is preparing something powerful for you. Try again shortly, my friend.",
+      fr: "Impossible de générer le défi en ce moment. L'univers vous prépare quelque chose de puissant. Réessayez sous peu, mon ami.",
+      es: "No se puede generar el desafío en este momento. El universo te está preparando algo poderoso. Inténtalo de nuevo pronto, mi amigo."
     };
 
     return errorMessages[lang] || errorMessages.en;

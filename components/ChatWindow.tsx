@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Message, UserProfile } from '../types';
 import { generateNapoleonResponse } from '../services/geminiService';
 import { translations } from '../translations';
+import ChallengeModal from './ChallengeModal';
 
 interface ChatWindowProps {
   user: UserProfile;
@@ -17,6 +18,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showChallenge, setShowChallenge] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -66,14 +68,23 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
             </div>
           </div>
         </div>
-        <button 
-          onClick={onUpgrade} 
-          className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all active:scale-95 shrink-0 ${
-            user.isPremium ? 'text-[#d4af37] border border-[#d4af37]/40' : 'btn-gold shadow-lg'
-          }`}
-        >
-          {user.isPremium ? 'Premium' : 'Upgrade'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowChallenge(true)}
+            className="px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all active:scale-95 shrink-0 bg-[#d4af37]/10 text-[#d4af37] border border-[#d4af37]/40 hover:bg-[#d4af37]/20"
+            title="Daily Challenge"
+          >
+            🎯
+          </button>
+          <button
+            onClick={onUpgrade}
+            className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all active:scale-95 shrink-0 ${
+              user.isPremium ? 'text-[#d4af37] border border-[#d4af37]/40' : 'btn-gold shadow-lg'
+            }`}
+          >
+            {user.isPremium ? 'Premium' : 'Upgrade'}
+          </button>
+        </div>
       </header>
 
       {/* Messages */}
@@ -129,6 +140,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
           </div>
         )}
       </div>
+
+      {/* Challenge Modal */}
+      {showChallenge && (
+        <ChallengeModal
+          lang={user.language}
+          onClose={() => setShowChallenge(false)}
+        />
+      )}
     </div>
   );
 };
