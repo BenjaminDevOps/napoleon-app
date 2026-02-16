@@ -3,10 +3,11 @@ import ChatWindow from './components/ChatWindow';
 import AutoSuggestion from './components/AutoSuggestion';
 import SubscriptionModal from './components/SubscriptionModal';
 import LandingPage from './components/LandingPage';
+import ChallengeModal from './components/ChallengeModal';
 import { UserProfile, MAX_FREE_MESSAGES, AppLanguage } from './types';
 import { initBilling } from './services/billingService';
 
-type Tab = 'chat' | 'autosuggestion';
+type Tab = 'chat' | 'challenges' | 'autosuggestion';
 
 const App: React.FC = () => {
   const [hasStarted, setHasStarted] = useState(false);
@@ -80,9 +81,9 @@ const App: React.FC = () => {
   const isLimited = !user.isPremium && user.messageCount >= MAX_FREE_MESSAGES;
 
   const tabTranslations = {
-    en: { chat: 'Chat', autosuggestion: 'Affirmation' },
-    fr: { chat: 'Chat', autosuggestion: 'Affirmation' },
-    es: { chat: 'Chat', autosuggestion: 'Afirmación' },
+    en: { chat: 'Chat', challenges: 'Challenges', autosuggestion: 'Affirmation' },
+    fr: { chat: 'Chat', challenges: 'Défis', autosuggestion: 'Affirmation' },
+    es: { chat: 'Chat', challenges: 'Desafíos', autosuggestion: 'Afirmación' },
   };
 
   const t = tabTranslations[user.language];
@@ -98,6 +99,13 @@ const App: React.FC = () => {
             onUpgrade={() => setShowPaywall(true)}
             isLimited={isLimited}
           />
+        ) : activeTab === 'challenges' ? (
+          <div className="h-full flex items-center justify-center p-4">
+            <ChallengeModal
+              lang={user.language}
+              onClose={() => setActiveTab('chat')}
+            />
+          </div>
         ) : (
           <AutoSuggestion language={user.language} />
         )}
@@ -121,6 +129,18 @@ const App: React.FC = () => {
             <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" />
           </svg>
           <span className="text-[9px] font-bold uppercase tracking-wider">{t.chat}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('challenges')}
+          className={`flex-1 py-4 flex flex-col items-center gap-1 transition-all ${
+            activeTab === 'challenges'
+              ? 'text-[#d4af37]'
+              : 'text-white/40 hover:text-white/60'
+          }`}
+        >
+          <div className="text-2xl">🎯</div>
+          <span className="text-[9px] font-bold uppercase tracking-wider">{t.challenges}</span>
         </button>
 
         <button
