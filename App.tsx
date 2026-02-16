@@ -13,6 +13,7 @@ const App: React.FC = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('chat');
+  const [showChallengeModal, setShowChallengeModal] = useState(false);
 
   const [user, setUser] = useState<UserProfile>(() => {
     try {
@@ -41,6 +42,13 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('napoleon_user', JSON.stringify(user));
   }, [user]);
+
+  useEffect(() => {
+    // Auto-ouvrir le modal quand on arrive sur l'onglet Challenges
+    if (activeTab === 'challenges') {
+      setShowChallengeModal(true);
+    }
+  }, [activeTab]);
 
   const handleStart = (lang: AppLanguage) => {
     setUser(prev => ({ ...prev, language: lang }));
@@ -100,11 +108,31 @@ const App: React.FC = () => {
             isLimited={isLimited}
           />
         ) : activeTab === 'challenges' ? (
-          <div className="h-full flex items-center justify-center p-4">
-            <ChallengeModal
-              lang={user.language}
-              onClose={() => setActiveTab('chat')}
-            />
+          <div className="h-full flex flex-col items-center justify-center p-6 bg-gradient-to-b from-[#1a2b48] to-[#121c2f]">
+            <div className="text-6xl mb-6 animate-bounce">🎯</div>
+            <h2 className="text-2xl font-serif font-bold text-white mb-4 text-center">
+              {user.language === 'fr' ? 'Défis Quotidiens' : user.language === 'es' ? 'Desafíos Diarios' : 'Daily Challenges'}
+            </h2>
+            <p className="text-white/60 text-center mb-8 max-w-md">
+              {user.language === 'fr'
+                ? 'Chaque défi est conçu pour vous propulser vers votre plein potentiel.'
+                : user.language === 'es'
+                ? 'Cada desafío está diseñado para impulsarte hacia tu máximo potencial.'
+                : 'Each challenge is designed to propel you toward your full potential.'}
+            </p>
+            <button
+              onClick={() => setShowChallengeModal(true)}
+              className="btn-gold shimmer px-8 py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl active:scale-95 transition-transform"
+            >
+              {user.language === 'fr' ? '🎯 Nouveau Défi' : user.language === 'es' ? '🎯 Nuevo Desafío' : '🎯 New Challenge'}
+            </button>
+
+            {showChallengeModal && (
+              <ChallengeModal
+                lang={user.language}
+                onClose={() => setShowChallengeModal(false)}
+              />
+            )}
           </div>
         ) : (
           <AutoSuggestion language={user.language} />

@@ -10,6 +10,7 @@ interface ChallengeModalProps {
 const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
   const [challenge, setChallenge] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isAccepted, setIsAccepted] = useState(false);
 
   const translations = {
     en: {
@@ -17,21 +18,24 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
       subtitle: 'from Napoleon Hill',
       loading: 'Preparing your challenge...',
       newChallenge: 'New Challenge',
-      close: 'Accept Challenge'
+      close: 'Accept Challenge',
+      accepted: '✅ Challenge Accepted! Take action NOW!',
     },
     fr: {
       title: 'Défi du Jour',
       subtitle: 'par Napoleon Hill',
       loading: 'Préparation de votre défi...',
       newChallenge: 'Nouveau Défi',
-      close: 'Accepter le Défi'
+      close: 'Accepter le Défi',
+      accepted: '✅ Défi Accepté ! Passez à l\'action MAINTENANT !',
     },
     es: {
       title: 'Desafío del Día',
       subtitle: 'por Napoleon Hill',
       loading: 'Preparando tu desafío...',
       newChallenge: 'Nuevo Desafío',
-      close: 'Aceptar Desafío'
+      close: 'Aceptar Desafío',
+      accepted: '✅ ¡Desafío Aceptado! ¡Actúe AHORA!',
     }
   };
 
@@ -43,9 +47,18 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
 
   const loadChallenge = async () => {
     setIsLoading(true);
+    setIsAccepted(false);
     const newChallenge = await generateDailyChallenge(lang);
     setChallenge(newChallenge);
     setIsLoading(false);
+  };
+
+  const handleAccept = () => {
+    setIsAccepted(true);
+    // Afficher le message de confirmation pendant 2 secondes puis fermer
+    setTimeout(() => {
+      onClose();
+    }, 2000);
   };
 
   return (
@@ -60,7 +73,12 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
 
         {/* Content - Scrollable */}
         <div className="flex-1 overflow-y-auto p-6">
-          {isLoading ? (
+          {isAccepted ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="text-6xl mb-4 animate-bounce">✅</div>
+              <p className="text-[#d4af37] text-xl font-bold text-center">{t.accepted}</p>
+            </div>
+          ) : isLoading ? (
             <div className="flex flex-col items-center justify-center py-12">
               <div className="flex gap-2 mb-4">
                 <div className="w-3 h-3 bg-[#d4af37] rounded-full animate-bounce"></div>
@@ -80,7 +98,7 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
 
         {/* Footer - Fixed */}
         <div className="p-6 shrink-0 space-y-3 border-t border-white/10">
-          {!isLoading && (
+          {!isLoading && !isAccepted && (
             <button
               onClick={loadChallenge}
               className="w-full py-3 bg-white/5 hover:bg-white/10 text-[#d4af37] border border-[#d4af37]/40 rounded-xl font-bold text-sm uppercase tracking-wider transition-all active:scale-95"
@@ -88,12 +106,14 @@ const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
               🔄 {t.newChallenge}
             </button>
           )}
-          <button
-            onClick={onClose}
-            className="w-full btn-gold py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl active:scale-[0.98] transition-transform"
-          >
-            ✓ {t.close}
-          </button>
+          {!isAccepted && (
+            <button
+              onClick={handleAccept}
+              className="w-full btn-gold py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl active:scale-[0.98] transition-transform"
+            >
+              ✓ {t.close}
+            </button>
+          )}
         </div>
       </div>
     </div>
