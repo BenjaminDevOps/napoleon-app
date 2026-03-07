@@ -9,15 +9,36 @@ interface AutoSuggestionData {
   phrase: string;
   count: number;
   dailyGoal: number;
+  lastResetDate?: string; // Date de la dernière réinitialisation (format YYYY-MM-DD)
 }
 
 const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
+  // Helper: obtenir la date du jour au format YYYY-MM-DD
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   const [data, setData] = useState<AutoSuggestionData>(() => {
     const saved = localStorage.getItem('autosuggestion_data');
+    const today = getTodayDate();
+
     if (saved) {
-      return JSON.parse(saved);
+      const parsedData = JSON.parse(saved);
+
+      // Réinitialiser le count si on est un nouveau jour
+      if (parsedData.lastResetDate !== today) {
+        return {
+          ...parsedData,
+          count: 0,
+          lastResetDate: today,
+        };
+      }
+
+      return parsedData;
     }
-    return { phrase: '', count: 0, dailyGoal: 10 };
+
+    return { phrase: '', count: 0, dailyGoal: 10, lastResetDate: today };
   });
 
   const [isEditing, setIsEditing] = useState(!data.phrase);
@@ -31,7 +52,8 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
   const handleRepeat = () => {
     if (data.count < data.dailyGoal) {
       const newCount = data.count + 1;
-      setData(prev => ({ ...prev, count: newCount }));
+      const today = getTodayDate();
+      setData(prev => ({ ...prev, count: newCount, lastResetDate: today }));
 
       // Confettis quand on atteint 10
       if (newCount === data.dailyGoal) {
@@ -42,12 +64,14 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
   };
 
   const handleReset = () => {
-    setData(prev => ({ ...prev, count: 0 }));
+    const today = getTodayDate();
+    setData(prev => ({ ...prev, count: 0, lastResetDate: today }));
   };
 
   const handleSavePhrase = () => {
     if (tempPhrase.trim()) {
-      setData(prev => ({ ...prev, phrase: tempPhrase.trim(), count: 0 }));
+      const today = getTodayDate();
+      setData(prev => ({ ...prev, phrase: tempPhrase.trim(), count: 0, lastResetDate: today }));
       setIsEditing(false);
     }
   };
