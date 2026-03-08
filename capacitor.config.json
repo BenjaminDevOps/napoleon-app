@@ -2,6 +2,6 @@
 {
   "appId": "com.napoleonhill.app",
   "appName": "Napoleon Hill AI",
-  "webDir": "dist",
+  "webDir": "www",
   "bundledWebRuntime": false
 }
