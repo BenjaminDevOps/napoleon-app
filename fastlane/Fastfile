@@ -1,0 +1,122 @@
+default_platform(:ios)
+
+platform :ios do
+
+  # ─── CERTIFICATS & PROVISIONING ────────────────────────────────────────────
+
+  desc "Synchroniser les certificats et profils de provisioning (lecture seule)"
+  lane :certs do
+    match(
+      type: "appstore",
+      readonly: true,
+      app_identifier: "com.napoleonhill.app"
+    )
+  end
+
+  desc "Générer et stocker de nouveaux certificats (première configuration)"
+  lane :setup_certs do
+    match(
+      type: "appstore",
+      app_identifier: "com.napoleonhill.app",
+      force_for_new_devices: true
+    )
+  end
+
+  # ─── BUILD ─────────────────────────────────────────────────────────────────
+
+  desc "Builder l'app iOS en mode Release"
+  lane :build do
+    certs
+
+    increment_build_number(
+      xcodeproj: "ios/App/App.xcodeproj"
+    )
+
+    build_app(
+      scheme: "App",
+      workspace: "ios/App/App.xcworkspace",
+      export_method: "app-store",
+      configuration: "Release",
+      output_directory: "./build",
+      output_name: "NapoleonHillAI.ipa",
+      clean: true
+    )
+  end
+
+  # ─── TESTFLIGHT ────────────────────────────────────────────────────────────
+
+  desc "Uploader sur TestFlight pour les tests internes"
+  lane :beta do
+    build
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      apple_id: ENV["APPLE_APP_ID"]
+    )
+
+    notification(
+      title: "Napoleon Hill AI",
+      message: "Build TestFlight uploadé avec succès !"
+    )
+  end
+
+  # ─── APP STORE ─────────────────────────────────────────────────────────────
+
+  desc "Soumettre l'app sur l'App Store"
+  lane :release do
+    build
+
+    upload_to_app_store(
+      force: true,
+      reject_if_possible: true,
+      skip_metadata: false,
+      skip_screenshots: false,
+      submit_for_review: true,
+      automatic_release: false,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: false,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: true
+      }
+    )
+
+    notification(
+      title: "Napoleon Hill AI",
+      message: "App soumise à l'App Store avec succès !"
+    )
+  end
+
+  # ─── SCREENSHOTS ───────────────────────────────────────────────────────────
+
+  desc "Générer les screenshots pour l'App Store"
+  lane :screenshots do
+    capture_screenshots(
+      workspace: "ios/App/App.xcworkspace",
+      scheme: "App"
+    )
+    frame_screenshots(white: true)
+  end
+
+  # ─── METADATA ONLY ─────────────────────────────────────────────────────────
+
+  desc "Mettre à jour uniquement les métadonnées (sans build)"
+  lane :update_metadata do
+    upload_to_app_store(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+
+  # ─── ERROR HANDLER ─────────────────────────────────────────────────────────
+
+  error do |lane, exception|
+    notification(
+      title: "Fastlane Error",
+      message: "Erreur dans la lane #{lane}: #{exception.message}"
+    )
+  end
+
+end

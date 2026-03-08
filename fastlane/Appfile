@@ -1,0 +1,11 @@
+app_identifier("com.napoleonhill.app")
+
+# Votre Apple ID (email du compte Apple Developer)
+apple_id(ENV["APPLE_ID"])
+
+# Votre Team ID (visible dans developer.apple.com → Membership)
+team_id(ENV["APPLE_TEAM_ID"])
+
+# App Store Connect API Key (recommandé pour l'automatisation)
+# Générer dans App Store Connect → Utilisateurs → Clés API
+itc_team_id(ENV["ITC_TEAM_ID"])

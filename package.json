@@ -15,7 +15,13 @@
     "cap-open-android": "cap open android",
     "cap-open-ios": "cap open ios",
     "cap-run-ios": "npm run build && cap sync ios && cap run ios",
-    "assets:generate": "npx @capacitor/assets generate"
+    "assets:generate": "npx @capacitor/assets generate",
+    "ios:build": "npm run build && cap sync ios",
+    "ios:open": "npm run ios:build && cap open ios",
+    "appstore:beta": "bundle exec fastlane ios beta",
+    "appstore:release": "bundle exec fastlane ios release",
+    "appstore:metadata": "bundle exec fastlane ios update_metadata",
+    "appstore:certs": "bundle exec fastlane ios certs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",

@@ -19,11 +19,17 @@ export const initBilling = (onPurchaseSuccess: () => void) => {
   try {
     const { store, ProductType, Platform } = CdvPurchase;
 
-    // Configuration du produit
+    // Configuration du produit pour Google Play et Apple App Store
     store.register({
       id: PRODUCT_ID,
       type: ProductType.PAID_SUBSCRIPTION,
       platform: Platform.GOOGLE_PLAY,
+    });
+
+    store.register({
+      id: PRODUCT_ID,
+      type: ProductType.PAID_SUBSCRIPTION,
+      platform: Platform.APPLE_APPSTORE,
     });
 
     // Gestion des événements d'achat
@@ -85,7 +91,7 @@ export const requestPurchase = () => {
       store.order(offer);
     } catch (error) {
       console.error("Purchase request error:", error);
-      alert("Error initiating purchase. Please check your Google Play connection and try again.");
+      alert("Error initiating purchase. Please check your connection and try again.");
     }
   } else {
     alert("Purchase simulation (browser mode)");
