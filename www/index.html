@@ -10,8 +10,55 @@
 
     <title>Napoleon Hill AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-wM2Wrk6l.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BSpcuPIg.css">
+
+    <!-- Critical styles : toujours disponibles avant le chargement du bundle -->
+    <style>
+      html, body {
+        background-color: #1a2b48 !important;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      #root {
+        height: 100%;
+        background-color: #1a2b48;
+      }
+      .font-serif { font-family: 'Playfair Display', serif; }
+      .btn-gold {
+        background: linear-gradient(135deg, #f1d27b 0%, #d4af37 100%);
+        color: #1a2b48;
+      }
+      .shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+      .shimmer::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -100%; width: 200%; height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+        transform: rotate(45deg);
+        animation: shimmerMove 3s infinite;
+      }
+      @keyframes shimmerMove {
+        0% { transform: translateX(-150%) rotate(45deg); }
+        100% { transform: translateX(150%) rotate(45deg); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px) scale(0.95); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .animate-fadeIn  { animation: fadeIn  0.2s ease-out; }
+      .animate-slideUp { animation: slideUp 0.3s ease-out; }
+    </style>
+    <script type="module" crossorigin src="./assets/index-DWH63t7M.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DIQRrDHj.css">
   </head>
   <body>
     <div id="root"></div>
