@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Fichier d'entitlements pour Napoleon Hill AI (iOS)
+  À placer dans : ios/App/App/App.entitlements
+  (créé automatiquement par Xcode — vérifier ces clés dans l'onglet "Signing & Capabilities")
+-->
+<plist version="1.0">
+<dict>
+  <!-- Achats In-App (StoreKit) — OBLIGATOIRE pour les abonnements -->
+  <key>com.apple.developer.in-app-payments</key>
+  <array>
+    <string>sub_mastermind_monthly</string>
+  </array>
+
+  <!-- Push notifications (optionnel — activer si besoin) -->
+  <!-- <key>aps-environment</key>
+  <string>production</string> -->
+
+</dict>
+</plist>

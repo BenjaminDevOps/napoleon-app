@@ -1,0 +1,14 @@
+# Podfile patch pour Napoleon Hill AI
+# Ce fichier montre les pods supplémentaires à ajouter dans ios/App/Podfile
+# après l'exécution de `cap add ios`
+#
+# Dans le bloc `target 'App' do` existant, ajouter :
+
+# pod 'CordovaPlugins', :path => '../capacitor-cordova-ios-plugins'
+# (Capacitor l'ajoute automatiquement)
+
+# Version iOS minimale requise (Capacitor 6 = iOS 14+)
+platform :ios, '14.0'
+
+# Aucun pod additionnel requis pour cordova-plugin-purchase —
+# le plugin est géré nativement via le fichier plugin.xml de Capacitor.

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Clés à ajouter dans ios/App/App/Info.plist après `cap add ios`
+  Ces clés sont OBLIGATOIRES pour l'App Store Apple.
+  Copier ces entrées dans le bloc <dict> principal du fichier Info.plist.
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+  <!-- Nom d'affichage de l'app -->
+  <key>CFBundleDisplayName</key>
+  <string>Napoleon Hill AI</string>
+
+  <!-- Identifiant de bundle -->
+  <key>CFBundleIdentifier</key>
+  <string>com.napoleonhill.app</string>
+
+  <!-- Version marketing -->
+  <key>CFBundleShortVersionString</key>
+  <string>1.1.0</string>
+
+  <!-- Build number (incrémenter à chaque soumission) -->
+  <key>CFBundleVersion</key>
+  <string>1</string>
+
+  <!-- Justification microphone (requis si permission demandée) -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Napoleon Hill AI uses the microphone for voice input features.</string>
+
+  <!-- Sécurité réseau — autoriser uniquement HTTPS -->
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <!-- Gemini API -->
+      <key>generativelanguage.googleapis.com</key>
+      <dict>
+        <key>NSIncludesSubdomains</key>
+        <true/>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <false/>
+      </dict>
+    </dict>
+  </dict>
+
+  <!-- Capacitor : WebView plein écran -->
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <false/>
+
+  <!-- Orientation supportée -->
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+  </array>
+
+</dict>
+</plist>
