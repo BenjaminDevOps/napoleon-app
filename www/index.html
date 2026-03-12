@@ -43,6 +43,13 @@
         /* Désactiver le rebond iOS natif sur le body */
         overscroll-behavior: none;
         -webkit-overflow-scrolling: touch;
+        /*
+          Fallback emoji OBLIGATOIRE pour WKWebView (iOS Simulator & device).
+          Sans 'Apple Color Emoji' explicite, les emoji s'affichent en carré ?.
+          -apple-system en premier force le rendu système natif d'iOS.
+        */
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto,
+                     'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
       }
 
       #root {
@@ -62,8 +69,11 @@
         user-select: text;
       }
 
-      /* Typographie */
-      .font-serif { font-family: 'Playfair Display', serif; }
+      /* Typographie — emoji fallback inclus dans les deux stacks */
+      .font-serif {
+        font-family: 'Playfair Display', Georgia, serif,
+                     'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+      }
 
       /* Bouton doré avec dégradé */
       .btn-gold {
