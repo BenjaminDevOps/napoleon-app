@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { requestPurchase, restorePurchases } from '../services/billingService';
 import { AppLanguage } from '../types';
 import { translations } from '../translations';
+import { IconCrown, IconChat, IconTarget, IconSparkles, IconStar } from './Icons';
 
 interface SubscriptionModalProps {
   lang: AppLanguage;
@@ -10,9 +10,16 @@ interface SubscriptionModalProps {
   onSubscribe: () => void;
 }
 
-// URLs légales — à remplacer par vos vraies pages
 const TERMS_URL = 'https://napoleonhillai.app/terms';
 const PRIVACY_URL = 'https://napoleonhillai.app/privacy';
+
+const featureIcons = [IconChat, IconTarget, IconSparkles, IconStar];
+
+const featureLabels: Record<AppLanguage, string[]> = {
+  en: ['Unlimited conversations', 'Exclusive daily challenges', 'Personalized affirmations', 'Napoleon Hill wisdom'],
+  fr: ['Conversations illimitées', 'Défis quotidiens exclusifs', 'Affirmations personnalisées', 'Sagesse de Napoleon Hill'],
+  es: ['Conversaciones ilimitadas', 'Desafíos diarios exclusivos', 'Afirmaciones personalizadas', 'Sabiduría de Napoleon Hill'],
+};
 
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, onSubscribe }) => {
   const t = translations[lang];
@@ -20,7 +27,6 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
 
   const handlePay = () => {
     requestPurchase(lang);
-    // En mode navigateur (CdvPurchase absent), on simule l'abonnement après délai
     if (typeof (window as any).CdvPurchase === 'undefined') {
       setTimeout(() => onSubscribe(), 1500);
     }
@@ -36,13 +42,10 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
   };
 
   const openUrl = (url: string) => {
-    // Capacitor InAppBrowser ou fallback window.open
-    if (typeof (window as any).Capacitor !== 'undefined') {
-      window.open(url, '_blank');
-    } else {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
+
+  const features = featureLabels[lang];
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-md animate-fadeIn">
@@ -50,7 +53,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
 
         {/* Header */}
         <div className="h-28 bg-[#1a2b48] rounded-t-3xl flex flex-col items-center justify-center gap-1">
-          <div className="text-3xl mb-1">👑</div>
+          <IconCrown size={32} color="#d4af37" className="mb-1" />
           <h3 className="font-serif text-lg font-bold uppercase tracking-widest text-[#d4af37]">
             {t.paywallTitle}
           </h3>
@@ -58,17 +61,16 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
 
         <div className="px-8 py-6">
           {/* Features list */}
-          <ul className="space-y-2 mb-6">
-            {[
-              lang === 'fr' ? '💬 Conversations illimitées' : lang === 'es' ? '💬 Conversaciones ilimitadas' : '💬 Unlimited conversations',
-              lang === 'fr' ? '🎯 Défis quotidiens exclusifs' : lang === 'es' ? '🎯 Desafíos diarios exclusivos' : '🎯 Exclusive daily challenges',
-              lang === 'fr' ? '✨ Affirmations personnalisées' : lang === 'es' ? '✨ Afirmaciones personalizadas' : '✨ Personalized affirmations',
-              lang === 'fr' ? '🌟 Sagesse de Napoleon Hill' : lang === 'es' ? '🌟 Sabiduría de Napoleon Hill' : '🌟 Napoleon Hill wisdom',
-            ].map((feature, i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                <span>{feature}</span>
-              </li>
-            ))}
+          <ul className="space-y-3 mb-6">
+            {features.map((label, i) => {
+              const Icon = featureIcons[i];
+              return (
+                <li key={i} className="flex items-center gap-3 text-sm text-gray-700">
+                  <Icon size={18} color="#d4af37" />
+                  <span>{label}</span>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Subscribe button */}
@@ -79,7 +81,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
             {t.subscribeBtn}
           </button>
 
-          {/* Restore purchases — exigé par l'App Store Apple */}
+          {/* Restore purchases */}
           <button
             onClick={handleRestore}
             disabled={isRestoring}
@@ -97,16 +99,10 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
 
           {/* Legal links */}
           <div className="flex justify-center gap-6 mb-4">
-            <button
-              onClick={() => openUrl(TERMS_URL)}
-              className="text-[10px] text-gray-400 underline"
-            >
+            <button onClick={() => openUrl(TERMS_URL)} className="text-[10px] text-gray-400 underline">
               {t.termsOfService}
             </button>
-            <button
-              onClick={() => openUrl(PRIVACY_URL)}
-              className="text-[10px] text-gray-400 underline"
-            >
+            <button onClick={() => openUrl(PRIVACY_URL)} className="text-[10px] text-gray-400 underline">
               {t.privacyPolicy}
             </button>
           </div>

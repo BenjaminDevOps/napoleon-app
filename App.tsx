@@ -4,6 +4,7 @@ import AutoSuggestion from './components/AutoSuggestion';
 import SubscriptionModal from './components/SubscriptionModal';
 import LandingPage from './components/LandingPage';
 import ChallengeModal from './components/ChallengeModal';
+import { IconTarget } from './components/Icons';
 import { UserProfile, MAX_FREE_MESSAGES, AppLanguage } from './types';
 import { initBilling } from './services/billingService';
 
@@ -31,7 +32,6 @@ const App: React.FC = () => {
     return { name: 'Guest', isPremium: false, messageCount: 0, language: 'en' };
   });
 
-  // Initialisation du billing : iOS ou Android selon la plateforme
   useEffect(() => {
     initBilling(() => {
       setUser(prev => ({ ...prev, isPremium: true }));
@@ -39,7 +39,6 @@ const App: React.FC = () => {
     });
   }, []);
 
-  // Persistance du profil utilisateur
   useEffect(() => {
     try {
       localStorage.setItem('napoleon_user', JSON.stringify(user));
@@ -48,7 +47,6 @@ const App: React.FC = () => {
     }
   }, [user]);
 
-  // Auto-ouvrir le modal quand on arrive sur l'onglet Challenges
   useEffect(() => {
     if (activeTab === 'challenges') {
       setShowChallengeModal(true);
@@ -92,9 +90,9 @@ const App: React.FC = () => {
   const tTab = tabLabels[user.language];
 
   const challengeHeadings = {
-    en: { title: 'Daily Challenges', body: 'Each challenge is designed to propel you toward your full potential.', btn: '🎯 New Challenge' },
-    fr: { title: 'Défis Quotidiens', body: 'Chaque défi est conçu pour vous propulser vers votre plein potentiel.', btn: '🎯 Nouveau Défi' },
-    es: { title: 'Desafíos Diarios', body: 'Cada desafío está diseñado para impulsarte hacia tu máximo potencial.', btn: '🎯 Nuevo Desafío' },
+    en: { title: 'Daily Challenges', body: 'Each challenge is designed to propel you toward your full potential.', btn: 'New Challenge' },
+    fr: { title: 'Défis Quotidiens', body: 'Chaque défi est conçu pour vous propulser vers votre plein potentiel.', btn: 'Nouveau Défi' },
+    es: { title: 'Desafíos Diarios', body: 'Cada desafío está diseñado para impulsarte hacia tu máximo potencial.', btn: 'Nuevo Desafío' },
   };
   const tChallenge = challengeHeadings[user.language];
 
@@ -111,7 +109,9 @@ const App: React.FC = () => {
           />
         ) : activeTab === 'challenges' ? (
           <div className="h-full flex flex-col items-center justify-center p-6 bg-gradient-to-b from-[#1a2b48] to-[#121c2f]">
-            <div className="text-6xl mb-6 animate-bounce">🎯</div>
+            <div className="mb-6 animate-bounce text-[#d4af37]">
+              <IconTarget size={64} color="#d4af37" />
+            </div>
             <h2 className="text-2xl font-serif font-bold text-white mb-4 text-center">
               {tChallenge.title}
             </h2>
@@ -120,8 +120,9 @@ const App: React.FC = () => {
             </p>
             <button
               onClick={() => setShowChallengeModal(true)}
-              className="btn-gold shimmer px-8 py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl active:scale-95 transition-transform"
+              className="btn-gold shimmer px-8 py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-2xl active:scale-95 transition-transform flex items-center gap-3"
             >
+              <IconTarget size={18} color="#1a2b48" />
               {tChallenge.btn}
             </button>
 
@@ -157,7 +158,7 @@ const App: React.FC = () => {
             activeTab === 'challenges' ? 'text-[#d4af37]' : 'text-white/40'
           }`}
         >
-          <div className="text-2xl">🎯</div>
+          <IconTarget size={24} />
           <span className="text-[9px] font-bold uppercase tracking-wider">{tTab.challenges}</span>
         </button>
 

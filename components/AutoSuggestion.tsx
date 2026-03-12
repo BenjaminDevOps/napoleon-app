@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppLanguage } from '../types';
+import { IconCelebration, IconStar, IconSparkles, IconStarOutline, IconTwinkle, IconLightbulb } from './Icons';
 
 interface AutoSuggestionProps {
   language: AppLanguage;
@@ -9,11 +10,10 @@ interface AutoSuggestionData {
   phrase: string;
   count: number;
   dailyGoal: number;
-  lastResetDate?: string; // Date de la dernière réinitialisation (format YYYY-MM-DD)
+  lastResetDate?: string;
 }
 
 const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
-  // Helper: obtenir la date du jour au format YYYY-MM-DD
   const getTodayDate = () => {
     const today = new Date();
     return today.toISOString().split('T')[0];
@@ -25,16 +25,9 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
 
     if (saved) {
       const parsedData = JSON.parse(saved);
-
-      // Réinitialiser le count si on est un nouveau jour
       if (parsedData.lastResetDate !== today) {
-        return {
-          ...parsedData,
-          count: 0,
-          lastResetDate: today,
-        };
+        return { ...parsedData, count: 0, lastResetDate: today };
       }
-
       return parsedData;
     }
 
@@ -55,7 +48,6 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
       const today = getTodayDate();
       setData(prev => ({ ...prev, count: newCount, lastResetDate: today }));
 
-      // Confettis quand on atteint 10
       if (newCount === data.dailyGoal) {
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 3000);
@@ -81,6 +73,9 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
     setIsEditing(true);
   };
 
+  // Composants SVG pour l'animation confetti (remplacent les emoji)
+  const confettiIcons = [IconCelebration, IconStar, IconSparkles, IconStarOutline, IconTwinkle];
+
   const translations = {
     en: {
       title: 'Auto-Suggestion',
@@ -92,20 +87,20 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
       repeat: 'I Affirm',
       reset: 'Reset Count',
       progress: 'Daily Progress',
-      complete: '🎉 Daily Goal Complete!',
+      complete: 'Daily Goal Complete!',
       instruction: 'Read your phrase aloud with emotion and belief. Repeat 10 times daily.',
     },
     fr: {
       title: 'Auto-Suggestion',
       subtitle: 'Votre Affirmation Quotidienne',
       placeholder: 'Écrivez votre objectif principal défini ou votre affirmation ici...',
-      example: 'Exemple: "Je gagne 100 000€ par an et je suis libre de poursuivre mes passions."',
+      example: 'Exemple: "Je gagne 100 000\u20AC par an et je suis libre de poursuivre mes passions."',
       save: 'Enregistrer',
       edit: 'Modifier',
       repeat: 'J\'affirme',
       reset: 'Réinitialiser',
       progress: 'Progrès Quotidien',
-      complete: '🎉 Objectif Quotidien Atteint !',
+      complete: 'Objectif Quotidien Atteint !',
       instruction: 'Lisez votre phrase à voix haute avec émotion et conviction. Répétez 10 fois par jour.',
     },
     es: {
@@ -118,7 +113,7 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
       repeat: 'Afirmo',
       reset: 'Reiniciar',
       progress: 'Progreso Diario',
-      complete: '🎉 ¡Meta Diaria Completada!',
+      complete: 'Meta Diaria Completada!',
       instruction: 'Lee tu frase en voz alta con emoción y creencia. Repite 10 veces al día.',
     },
   };
@@ -129,23 +124,26 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
 
   return (
     <div className="flex flex-col h-full bg-gradient-to-b from-[#1a2b48] to-[#121c2f] p-6 overflow-y-auto relative">
-      {/* Confetti Effect */}
+      {/* Confetti Effect — icônes SVG au lieu d'emoji */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
-          {Array.from({ length: 50 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute animate-fall"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: '-10px',
-                animationDelay: `${Math.random() * 0.5}s`,
-                animationDuration: `${2 + Math.random() * 1}s`,
-              }}
-            >
-              {['🎉', '⭐', '✨', '🌟', '💫'][i % 5]}
-            </div>
-          ))}
+          {Array.from({ length: 30 }).map((_, i) => {
+            const Icon = confettiIcons[i % confettiIcons.length];
+            return (
+              <div
+                key={i}
+                className="absolute animate-fall"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: '-20px',
+                  animationDelay: `${Math.random() * 0.5}s`,
+                  animationDuration: `${2 + Math.random() * 1}s`,
+                }}
+              >
+                <Icon size={16} color="#d4af37" />
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -160,6 +158,7 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
           animation: fall linear forwards;
         }
       `}</style>
+
       {/* Header */}
       <div className="text-center mb-8 pt-[env(safe-area-inset-top)]">
         <h1 className="font-serif text-3xl font-black text-[#d4af37] mb-2 uppercase tracking-wider">
@@ -170,9 +169,12 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
 
       {/* Instruction */}
       <div className="bg-white/5 border border-[#d4af37]/20 rounded-xl p-4 mb-6 backdrop-blur-sm">
-        <p className="text-white/80 text-xs leading-relaxed text-center">
-          💡 {t.instruction}
-        </p>
+        <div className="flex items-start gap-2">
+          <IconLightbulb size={16} color="#d4af37" className="shrink-0 mt-0.5" />
+          <p className="text-white/80 text-xs leading-relaxed text-center flex-1">
+            {t.instruction}
+          </p>
+        </div>
       </div>
 
       {/* Phrase Editor or Display */}
@@ -237,7 +239,10 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
           {/* Complete Message */}
           {isComplete && (
             <div className="bg-gradient-to-r from-green-500/20 to-[#d4af37]/20 border-2 border-green-500/50 rounded-xl p-4 mb-6 text-center animate-pulse">
-              <p className="text-green-400 font-black text-lg mb-1">{t.complete}</p>
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <IconCelebration size={22} color="#4ade80" />
+                <p className="text-green-400 font-black text-lg">{t.complete}</p>
+              </div>
               <p className="text-white/60 text-xs">
                 {language === 'fr' ? 'Vous maîtrisez votre destin !' : language === 'es' ? '¡Controlas tu destino!' : 'You master your destiny!'}
               </p>
