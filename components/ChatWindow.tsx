@@ -99,7 +99,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
       </div>
 
       {/* Input / Action Area */}
-      <div className="p-4 bg-[#1a2b48] border-t border-white/5 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+      <div className="p-4 bg-[#1a2b48] border-t border-white/5 shrink-0">
         {isLimited ? (
           <button
             onClick={onUpgrade}
