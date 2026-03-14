@@ -97,7 +97,7 @@ const App: React.FC = () => {
   const tChallenge = challengeHeadings[user.language];
 
   return (
-    <div className="flex flex-col h-screen bg-[#1a2b48] overflow-hidden">
+    <div className="flex flex-col h-full bg-[#1a2b48] overflow-hidden">
       {/* Content area */}
       <div className="flex-1 overflow-hidden">
         {activeTab === 'chat' ? (
