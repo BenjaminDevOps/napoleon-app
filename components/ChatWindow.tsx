@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Message, UserProfile } from '../types';
 import { generateNapoleonResponse } from '../services/geminiService';
 import { translations } from '../translations';
+import mastermindAvatar from '../assets/mastermind-avatar.svg';
 
 interface ChatWindowProps {
   user: UserProfile;
@@ -51,17 +52,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
       {/* Header */}
       <header className="px-8 py-6 bg-[#1a2b48] border-b border-white/10 flex items-center justify-between shrink-0 pt-[calc(env(safe-area-inset-top)+1rem)]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-[#0d1826] shadow-lg shrink-0 flex items-center justify-center">
-            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <rect width="40" height="40" fill="#0d1826"/>
-              <ellipse cx="20" cy="34" rx="11" ry="8" fill="#1a2b48"/>
-              <rect x="14" y="26" width="12" height="10" rx="2" fill="#1a2b48"/>
-              <polygon points="20,24 18,28 20,32 22,28" fill="#d4af37"/>
-              <circle cx="20" cy="16" r="8" fill="#c8a882"/>
-              <ellipse cx="20" cy="9" rx="8" ry="4" fill="#2a1a0a"/>
-              <polygon points="17,24 15,27 20,26" fill="white"/>
-              <polygon points="23,24 25,27 20,26" fill="white"/>
-            </svg>
+          <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-[#0d1826] shadow-lg shrink-0">
+            <img src={mastermindAvatar} className="w-full h-full" alt="The Mastermind" />
           </div>
           <div className="overflow-hidden">
             <h2 className="font-serif font-bold text-base text-white truncate">The Mastermind</h2>
