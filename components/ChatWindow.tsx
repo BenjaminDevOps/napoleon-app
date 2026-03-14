@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Message, UserProfile } from '../types';
 import { generateNapoleonResponse } from '../services/geminiService';
 import { translations } from '../translations';
-import mastermindAvatar from '../assets/mastermind-avatar.svg';
 
 interface ChatWindowProps {
   user: UserProfile;
@@ -52,8 +51,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
       {/* Header */}
       <header className="px-8 py-6 bg-[#1a2b48] border-b border-white/10 flex items-center justify-between shrink-0 pt-[calc(env(safe-area-inset-top)+1rem)]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-[#0d1826] shadow-lg shrink-0">
-            <img src={mastermindAvatar} className="w-full h-full" alt="The Mastermind" />
+          <div className="w-10 h-10 rounded-full border border-[#d4af37] overflow-hidden bg-[#0d1826] shadow-lg shrink-0 flex items-center justify-center">
+            <span className="text-[#d4af37] font-serif font-bold text-sm">TM</span>
           </div>
           <div className="overflow-hidden">
             <h2 className="font-serif font-bold text-base text-white truncate">The Mastermind</h2>
