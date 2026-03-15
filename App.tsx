@@ -139,7 +139,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Tab Navigation */}
-      <nav className="bg-[#1a2b48] border-t border-white/10 flex" style={{ paddingBottom: 'min(env(safe-area-inset-bottom), 4px)' }}>
+      <nav className="bg-[#1a2b48] border-t border-white/10 flex" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         <button
           onClick={() => setActiveTab('chat')}
           className={`flex-1 py-4 flex flex-col items-center gap-1 transition-all ${
