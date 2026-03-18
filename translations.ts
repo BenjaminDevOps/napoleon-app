@@ -41,6 +41,12 @@ export const translations: Record<AppLanguage, any> = {
     affirmationNext: "Next",
     affirmationFavorite: "Save",
     affirmationSaved: "Saved ✓",
+    affirmationCustom: "My own affirmation",
+    affirmationCustomPlaceholder: "Write your personal affirmation...",
+    affirmationRepeat: "Repeat 10×",
+    affirmationRepeatTitle: "Say it out loud",
+    affirmationRepeatDone: "Completed! 🌟",
+    affirmationRepeatBack: "Done",
   },
   fr: {
     welcome: "Salutations, mon ami. Je suis Napoleon Hill. J'ai passé vingt ans à analyser les hommes les plus riches. Quel est votre Objectif Principal défini aujourd'hui ?",
@@ -75,6 +81,12 @@ export const translations: Record<AppLanguage, any> = {
     affirmationNext: "Suivant",
     affirmationFavorite: "Sauvegarder",
     affirmationSaved: "Sauvegardé ✓",
+    affirmationCustom: "Mon affirmation personnelle",
+    affirmationCustomPlaceholder: "Écrivez votre affirmation personnelle...",
+    affirmationRepeat: "Répéter 10×",
+    affirmationRepeatTitle: "Dites-le à voix haute",
+    affirmationRepeatDone: "Accompli ! 🌟",
+    affirmationRepeatBack: "Terminé",
   },
   es: {
     welcome: "Saludos, amigo mío. Soy Napoleon Hill. He pasado veinte años analizando a los hombres más exitosos. ¿Cuál es su Objetivo Principal hoy?",
@@ -109,6 +121,12 @@ export const translations: Record<AppLanguage, any> = {
     affirmationNext: "Siguiente",
     affirmationFavorite: "Guardar",
     affirmationSaved: "Guardado ✓",
+    affirmationCustom: "Mi afirmación personal",
+    affirmationCustomPlaceholder: "Escribe tu afirmación personal...",
+    affirmationRepeat: "Repetir 10×",
+    affirmationRepeatTitle: "Dilo en voz alta",
+    affirmationRepeatDone: "¡Completado! 🌟",
+    affirmationRepeatBack: "Hecho",
   }
 };
 
