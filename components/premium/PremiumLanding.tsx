@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { AppLanguage } from '../../types';
 import { translations } from '../../translations';
+import FlagIcon from './FlagIcon';
 
 interface PremiumLandingProps {
   onStart: (lang: AppLanguage) => void;
 }
 
-const LANGS: { code: AppLanguage; label: string; flag: string; name: string }[] = [
-  { code: 'en', label: 'English',   flag: '🇺🇸', name: 'English' },
-  { code: 'fr', label: 'Français',  flag: '🇫🇷', name: 'Français' },
-  { code: 'es', label: 'Español',   flag: '🇪🇸', name: 'Español' },
+const LANGS: { code: AppLanguage; label: string }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'fr', label: 'Français' },
+  { code: 'es', label: 'Español' },
 ];
 
 const PremiumLanding: React.FC<PremiumLandingProps> = ({ onStart }) => {
@@ -136,17 +137,7 @@ const PremiumLanding: React.FC<PremiumLandingProps> = ({ onStart }) => {
                     transform: active ? 'translateY(-2px)' : 'none',
                   }}
                 >
-                  {/* Flag emoji — large */}
-                  <span
-                    className="emoji leading-none"
-                    style={{
-                      fontSize: 32,
-                      filter: active ? 'none' : 'saturate(0.5) brightness(0.7)',
-                      transition: 'filter 0.3s ease',
-                    }}
-                  >
-                    {l.flag}
-                  </span>
+                  <FlagIcon lang={l.code} size={44} desaturate={!active} />
                   <span
                     className="text-[10px] font-bold uppercase tracking-wider"
                     style={{
