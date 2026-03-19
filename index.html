@@ -32,14 +32,23 @@
       * { box-sizing: border-box; }
 
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
         background-color: var(--bg-deep);
         -webkit-tap-highlight-color: transparent;
         overflow: hidden;
         user-select: none;
         -webkit-font-smoothing: antialiased;
       }
-      .font-serif { font-family: 'Playfair Display', serif; }
+      .font-serif {
+        font-family: 'Playfair Display', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', serif;
+      }
+      /* Force Apple Color Emoji on any element containing only an emoji */
+      .emoji {
+        font-family: 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Emoji', system-ui !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+      }
 
       /* ── Scrollbar ── */
       ::-webkit-scrollbar { width: 0px; }

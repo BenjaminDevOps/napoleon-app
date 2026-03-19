@@ -116,21 +116,20 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span
-              className="font-serif font-black"
-              style={{
-                fontSize: done ? 36 : 48,
-                color: done ? '#4ade80' : '#ffffff',
-                lineHeight: 1,
-                transition: 'color 0.3s ease',
-              }}
-            >
-              {done ? '🌟' : repeatCount}
-            </span>
-            {!done && (
-              <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                / {REPEAT_TOTAL}
-              </span>
+            {done ? (
+              <span className="emoji" style={{ fontSize: 40 }}>🌟</span>
+            ) : (
+              <>
+                <span
+                  className="font-serif font-black"
+                  style={{ fontSize: 48, color: '#ffffff', lineHeight: 1 }}
+                >
+                  {repeatCount}
+                </span>
+                <span className="text-[11px] font-bold" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                  / {REPEAT_TOTAL}
+                </span>
+              </>
             )}
           </div>
         </div>
@@ -164,6 +163,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               className="px-6 py-3 rounded-2xl check-in"
               style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)' }}
             >
+              <span className="emoji" style={{ fontSize: 20 }}>🌟</span>
               <span className="text-[14px] font-bold" style={{ color: '#4ade80' }}>{t.affirmationRepeatDone}</span>
             </div>
             <button
@@ -188,7 +188,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               transition: 'all 0.15s ease',
             }}
           >
-            <span className="text-2xl select-none">✦</span>
+            <span className="select-none" style={{ fontSize: 28, color: repeatFlash ? '#0a0a1a' : '#d4af37' }}>✦</span>
           </button>
         )}
 
@@ -431,7 +431,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)' }}
               title={t.affirmationRepeat}
             >
-              <span className="text-[14px]">🔁</span>
+              <span className="emoji" style={{ fontSize: 14 }}>🔁</span>
               <span className="text-[8px] font-black" style={{ color: '#d4af37' }}>10×</span>
             </button>
 

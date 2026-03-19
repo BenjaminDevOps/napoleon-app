@@ -76,7 +76,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               border: '1px solid rgba(212,175,55,0.25)',
             }}
           >
-            <span className="text-base">🔥</span>
+            <span className="emoji" style={{ fontSize: 16 }}>🔥</span>
             <span
               className="text-[13px] font-bold"
               style={{ color: '#d4af37' }}
@@ -109,7 +109,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               className="px-5 pt-5 pb-3 flex items-start justify-between"
             >
               <div className="flex items-center gap-3">
-                <span className="text-4xl">{todayChallenge.emoji}</span>
+                <span className="emoji" style={{ fontSize: 36 }}>{todayChallenge.emoji}</span>
                 <div>
                   <span
                     className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
@@ -152,7 +152,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   className="flex items-center justify-center gap-2 py-3 rounded-xl check-in"
                   style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}
                 >
-                  <span className="text-[18px]">✅</span>
+                  <span className="emoji" style={{ fontSize: 18 }}>✅</span>
                   <span className="text-[12px] font-bold" style={{ color: '#4ade80' }}>
                     {t.challengeComplete}
                   </span>
@@ -203,7 +203,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   }}
                   onClick={() => !done && handleComplete(ch.id)}
                 >
-                  <span className="text-2xl shrink-0">{ch.emoji}</span>
+                  <span className="emoji shrink-0" style={{ fontSize: 22 }}>{ch.emoji}</span>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">

@@ -45,7 +45,7 @@ export const translations: Record<AppLanguage, any> = {
     affirmationCustomPlaceholder: "Write your personal affirmation...",
     affirmationRepeat: "Repeat 10×",
     affirmationRepeatTitle: "Say it out loud",
-    affirmationRepeatDone: "Completed! 🌟",
+    affirmationRepeatDone: "Completed!",
     affirmationRepeatBack: "Done",
   },
   fr: {
@@ -85,7 +85,7 @@ export const translations: Record<AppLanguage, any> = {
     affirmationCustomPlaceholder: "Écrivez votre affirmation personnelle...",
     affirmationRepeat: "Répéter 10×",
     affirmationRepeatTitle: "Dites-le à voix haute",
-    affirmationRepeatDone: "Accompli ! 🌟",
+    affirmationRepeatDone: "Accompli !",
     affirmationRepeatBack: "Terminé",
   },
   es: {
@@ -125,7 +125,7 @@ export const translations: Record<AppLanguage, any> = {
     affirmationCustomPlaceholder: "Escribe tu afirmación personal...",
     affirmationRepeat: "Repetir 10×",
     affirmationRepeatTitle: "Dilo en voz alta",
-    affirmationRepeatDone: "¡Completado! 🌟",
+    affirmationRepeatDone: "¡Completado!",
     affirmationRepeatBack: "Hecho",
   }
 };

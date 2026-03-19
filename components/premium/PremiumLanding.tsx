@@ -138,8 +138,9 @@ const PremiumLanding: React.FC<PremiumLandingProps> = ({ onStart }) => {
                 >
                   {/* Flag emoji — large */}
                   <span
-                    className="text-[32px] leading-none"
+                    className="emoji leading-none"
                     style={{
+                      fontSize: 32,
                       filter: active ? 'none' : 'saturate(0.5) brightness(0.7)',
                       transition: 'filter 0.3s ease',
                     }}
