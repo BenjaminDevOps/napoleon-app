@@ -1,6 +1,6 @@
 {
-  "name": "Napoleon Hill: Think & Grow Positive",
-  "description": "A high-performance coaching app featuring an AI reincarnation of Napoleon Hill to help users master their mindset and achieve success through positive thinking.",
+  "name": "The MasterMind AI",
+  "description": "A high-performance mindset coaching app powered by AI. Master your mind, conquer daily challenges, and reprogram your thinking for lasting success.",
   "requestFramePermissions": [
     "microphone"
   ]

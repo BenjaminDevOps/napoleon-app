@@ -26,7 +26,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         <div className="w-32 h-32 rounded-full border-[3px] border-[#d4af37] overflow-hidden bg-white shadow-2xl">
           <img 
             src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=200&h=200&auto=format&fit=crop" 
-            alt="Napoleon Hill" 
+            alt="The MasterMind"
             className="w-full h-full object-cover grayscale opacity-90 scale-110"
           />
         </div>

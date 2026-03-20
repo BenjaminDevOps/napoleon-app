@@ -83,7 +83,7 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
             >
               <img
                 src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=100&h=100&auto=format&fit=crop"
-                alt="Napoleon Hill"
+                alt="The Master"
                 className="w-full h-full object-cover"
                 style={{ filter: 'grayscale(100%) brightness(0.85)' }}
               />
@@ -100,10 +100,10 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
               className="font-serif font-bold text-[15px] leading-tight"
               style={{ color: '#ffffff' }}
             >
-              Napoleon Hill
+              The MasterMind
             </h2>
             <p className="text-[9px] font-bold uppercase tracking-[0.2em]" style={{ color: '#d4af37' }}>
-              Online · Master Mind
+              Online · The MasterMind
             </p>
           </div>
         </div>
@@ -153,7 +153,7 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
               >
                 <img
                   src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=50&h=50&auto=format&fit=crop"
-                  alt=""
+                  alt="The MasterMind"
                   className="w-full h-full object-cover"
                 />
               </div>

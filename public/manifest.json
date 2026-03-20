@@ -1,6 +1,6 @@
 {
-  "short_name": "NapoleonAI",
-  "name": "Napoleon Hill AI: Think & Grow Positive",
+  "short_name": "MasterMind AI",
+  "name": "The MasterMind AI",
   "icons": [
     {
       "src": "../icons/icon-48.webp",
@@ -47,6 +47,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#1a2b48",
-  "background_color": "#1a2b48"
+  "theme_color": "#0a0a1a",
+  "background_color": "#0a0a1a"
 }

@@ -61,7 +61,7 @@ const PremiumLanding: React.FC<PremiumLandingProps> = ({ onStart }) => {
               <div className="w-full h-full rounded-full overflow-hidden bg-[#1a2b48]">
                 <img
                   src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=200&h=200&auto=format&fit=crop"
-                  alt="Napoleon Hill"
+                  alt="The MasterMind"
                   className="w-full h-full object-cover"
                   style={{ filter: 'grayscale(100%) brightness(0.9) contrast(1.1)' }}
                 />
@@ -98,7 +98,7 @@ const PremiumLanding: React.FC<PremiumLandingProps> = ({ onStart }) => {
           style={{ transitionDelay: '0.34s' }}
         >
           <div className="text-[11px] font-bold uppercase tracking-[0.2em] mb-1.5" style={{ color: 'rgba(212,175,55,0.7)' }}>
-            Napoleon Hill
+            The MasterMind
           </div>
           <p className="text-sm italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>
             "{t.landingSubtitle}"
