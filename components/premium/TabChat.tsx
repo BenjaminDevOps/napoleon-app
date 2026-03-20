@@ -115,7 +115,7 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
             style={{ background: 'rgba(212,175,55,0.12)', border: '1px solid rgba(212,175,55,0.35)' }}
           >
             <span className="text-[9px] font-black uppercase tracking-wider" style={{ color: '#d4af37' }}>
-              Premium ✦
+              Premium
             </span>
           </div>
         ) : (
@@ -212,7 +212,7 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
             onClick={onUpgrade}
             className="btn-gold shimmer w-full py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-transform active:scale-[0.97]"
           >
-            {t.unlock} ✦
+            {t.unlock}
           </button>
         ) : (
           <div

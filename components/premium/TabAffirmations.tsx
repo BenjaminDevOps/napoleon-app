@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { UserProfile } from '../../types';
 import { translations, affirmations as affirmationData } from '../../translations';
+import { SparkIcon, Emoji } from './Icons';
 
 interface TabAffirmationsProps {
   user: UserProfile;
@@ -117,7 +118,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             {done ? (
-              <span className="emoji" style={{ fontSize: 40 }}>🌟</span>
+              <Emoji size={40}>🌟</Emoji>
             ) : (
               <>
                 <span
@@ -163,7 +164,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               className="px-6 py-3 rounded-2xl check-in"
               style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)' }}
             >
-              <span className="emoji" style={{ fontSize: 20 }}>🌟</span>
+              <Emoji size={20}>🌟</Emoji>
               <span className="text-[14px] font-bold" style={{ color: '#4ade80' }}>{t.affirmationRepeatDone}</span>
             </div>
             <button
@@ -188,7 +189,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               transition: 'all 0.15s ease',
             }}
           >
-            <span className="select-none" style={{ fontSize: 28, color: repeatFlash ? '#0a0a1a' : '#d4af37' }}>✦</span>
+            <SparkIcon size={28} color={repeatFlash ? '#0a0a1a' : '#d4af37'} />
           </button>
         )}
 
@@ -357,7 +358,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
         {/* Affirmation of day label */}
         <div className="mb-4 anim-fade-up delay-100">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px]" style={{ background: 'rgba(212,175,55,0.15)', border: '1px solid rgba(212,175,55,0.3)' }}>✦</div>
+            <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: 'rgba(212,175,55,0.15)', border: '1px solid rgba(212,175,55,0.3)' }}><SparkIcon size={10} color="#d4af37" /></div>
             <span className="text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: 'rgba(212,175,55,0.8)' }}>{t.affirmationOfDay}</span>
           </div>
         </div>
@@ -379,7 +380,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
             {/* Breathing circle */}
             <div className="flex justify-center pt-10 pb-4">
               <div className="breathe rounded-full flex items-center justify-center" style={{ width: 64, height: 64, background: 'radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)', border: '1px solid rgba(212,175,55,0.2)' }}>
-                <span className="text-2xl">✦</span>
+                <SparkIcon size={22} color="#d4af37" />
               </div>
             </div>
 
@@ -431,7 +432,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)' }}
               title={t.affirmationRepeat}
             >
-              <span className="emoji" style={{ fontSize: 14 }}>🔁</span>
+              <Emoji size={14}>🔁</Emoji>
               <span className="text-[8px] font-black" style={{ color: '#d4af37' }}>10×</span>
             </button>
 

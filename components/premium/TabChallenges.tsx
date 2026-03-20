@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { UserProfile } from '../../types';
 import { translations, challenges as challengeData } from '../../translations';
+import { Emoji, ClockIcon, SparkIcon } from './Icons';
 
 interface TabChallengesProps {
   user: UserProfile;
@@ -76,7 +77,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               border: '1px solid rgba(212,175,55,0.25)',
             }}
           >
-            <span className="emoji" style={{ fontSize: 16 }}>🔥</span>
+            <Emoji size={16}>🔥</Emoji>
             <span
               className="text-[13px] font-bold"
               style={{ color: '#d4af37' }}
@@ -109,7 +110,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               className="px-5 pt-5 pb-3 flex items-start justify-between"
             >
               <div className="flex items-center gap-3">
-                <span className="emoji" style={{ fontSize: 36 }}>{todayChallenge.emoji}</span>
+                <Emoji size={36}>{todayChallenge.emoji}</Emoji>
                 <div>
                   <span
                     className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
@@ -134,7 +135,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
               >
                 <span className="text-[10px] font-bold" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  ⏱ {todayChallenge.duration}
+                  <ClockIcon size={11} color="rgba(255,255,255,0.45)" /> {todayChallenge.duration}
                 </span>
               </div>
             </div>
@@ -152,7 +153,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   className="flex items-center justify-center gap-2 py-3 rounded-xl check-in"
                   style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}
                 >
-                  <span className="emoji" style={{ fontSize: 18 }}>✅</span>
+                  <Emoji size={18}>✅</Emoji>
                   <span className="text-[12px] font-bold" style={{ color: '#4ade80' }}>
                     {t.challengeComplete}
                   </span>
@@ -166,7 +167,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                     transform: completingId === todayChallenge.id ? 'scale(0.97)' : undefined,
                   }}
                 >
-                  {completingId === todayChallenge.id ? '✦ ...' : t.challengeDone}
+                  {completingId === todayChallenge.id ? '...' : t.challengeDone}
                 </button>
               )}
             </div>
@@ -203,7 +204,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   }}
                   onClick={() => !done && handleComplete(ch.id)}
                 >
-                  <span className="emoji shrink-0" style={{ fontSize: 22 }}>{ch.emoji}</span>
+                  <Emoji size={22}>{ch.emoji}</Emoji>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
@@ -213,7 +214,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                       >
                         {ch.category}
                       </span>
-                      <span className="text-[9px]" style={{ color: 'rgba(255,255,255,0.3)' }}>⏱ {ch.duration}</span>
+                      <span className="text-[9px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.3)' }}><ClockIcon size={10} color="rgba(255,255,255,0.3)" /> {ch.duration}</span>
                     </div>
                     <h4
                       className="text-[14px] font-semibold truncate"
