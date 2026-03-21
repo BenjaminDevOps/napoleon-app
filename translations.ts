@@ -133,43 +133,43 @@ export const translations: Record<AppLanguage, any> = {
 export const challenges = {
   en: [
     {
-      id: 'c1', emoji: '🧠', category: 'mindset',
+      id: 'c1', category: 'mindset',
       title: 'Morning Visualization',
       description: 'Spend 5 minutes visualizing your chief aim as already achieved. Feel it, see it, believe it.',
       duration: '5 min'
     },
     {
-      id: 'c2', emoji: '📝', category: 'action',
+      id: 'c2', category: 'action',
       title: 'Write Your Definite Aim',
       description: 'Write your primary goal in present tense, with a deadline and a plan. Read it aloud twice.',
       duration: '10 min'
     },
     {
-      id: 'c3', emoji: '🤝', category: 'action',
+      id: 'c3', category: 'action',
       title: 'Add Value First',
       description: 'Identify one person you can help today without expecting anything in return.',
       duration: '15 min'
     },
     {
-      id: 'c4', emoji: '🙏', category: 'gratitude',
+      id: 'c4', category: 'gratitude',
       title: 'Gratitude Journal',
       description: 'Write 3 things you\'re grateful for and explain why each one matters to your success.',
       duration: '8 min'
     },
     {
-      id: 'c5', emoji: '🎯', category: 'focus',
+      id: 'c5', category: 'focus',
       title: 'Deep Work Block',
       description: 'Eliminate all distractions and focus entirely on your most important task for 25 minutes.',
       duration: '25 min'
     },
     {
-      id: 'c6', emoji: '📚', category: 'mindset',
+      id: 'c6', category: 'mindset',
       title: 'Read & Reflect',
       description: 'Read one chapter of an inspiring book. Write down the single most important lesson.',
       duration: '20 min'
     },
     {
-      id: 'c7', emoji: '💪', category: 'action',
+      id: 'c7', category: 'action',
       title: 'Take Bold Action',
       description: 'Do one thing today that scares you slightly — a call, a message, a decision you\'ve been postponing.',
       duration: '10 min'
@@ -177,43 +177,43 @@ export const challenges = {
   ],
   fr: [
     {
-      id: 'c1', emoji: '🧠', category: 'mindset',
+      id: 'c1', category: 'mindset',
       title: 'Visualisation Matinale',
       description: 'Passez 5 minutes à visualiser votre objectif principal comme déjà accompli. Ressentez-le, voyez-le, croyez-y.',
       duration: '5 min'
     },
     {
-      id: 'c2', emoji: '📝', category: 'action',
+      id: 'c2', category: 'action',
       title: 'Écrivez votre Objectif',
       description: 'Rédigez votre objectif au présent, avec une date limite et un plan. Lisez-le à voix haute deux fois.',
       duration: '10 min'
     },
     {
-      id: 'c3', emoji: '🤝', category: 'action',
+      id: 'c3', category: 'action',
       title: 'Apporter de la Valeur',
       description: 'Identifiez une personne que vous pouvez aider aujourd\'hui sans rien attendre en retour.',
       duration: '15 min'
     },
     {
-      id: 'c4', emoji: '🙏', category: 'gratitude',
+      id: 'c4', category: 'gratitude',
       title: 'Journal de Gratitude',
       description: 'Écrivez 3 choses pour lesquelles vous êtes reconnaissant et expliquez leur importance.',
       duration: '8 min'
     },
     {
-      id: 'c5', emoji: '🎯', category: 'focus',
+      id: 'c5', category: 'focus',
       title: 'Bloc de Concentration',
       description: 'Éliminez toutes les distractions et concentrez-vous sur votre tâche principale pendant 25 minutes.',
       duration: '25 min'
     },
     {
-      id: 'c6', emoji: '📚', category: 'mindset',
+      id: 'c6', category: 'mindset',
       title: 'Lire et Réfléchir',
       description: 'Lisez un chapitre d\'un livre inspirant. Notez la leçon la plus importante.',
       duration: '20 min'
     },
     {
-      id: 'c7', emoji: '💪', category: 'action',
+      id: 'c7', category: 'action',
       title: 'Action Audacieuse',
       description: 'Faites une chose qui vous effraie légèrement — un appel, un message, une décision reportée.',
       duration: '10 min'
@@ -221,43 +221,43 @@ export const challenges = {
   ],
   es: [
     {
-      id: 'c1', emoji: '🧠', category: 'mindset',
+      id: 'c1', category: 'mindset',
       title: 'Visualización Matutina',
       description: 'Pase 5 minutos visualizando su objetivo principal como ya logrado. Siéntalo, véalo, créalo.',
       duration: '5 min'
     },
     {
-      id: 'c2', emoji: '📝', category: 'action',
+      id: 'c2', category: 'action',
       title: 'Escribe tu Objetivo',
       description: 'Escribe tu objetivo principal en tiempo presente con fecha límite. Léelo en voz alta dos veces.',
       duration: '10 min'
     },
     {
-      id: 'c3', emoji: '🤝', category: 'action',
+      id: 'c3', category: 'action',
       title: 'Aportar Valor',
       description: 'Identifica a alguien a quien puedas ayudar hoy sin esperar nada a cambio.',
       duration: '15 min'
     },
     {
-      id: 'c4', emoji: '🙏', category: 'gratitude',
+      id: 'c4', category: 'gratitude',
       title: 'Diario de Gratitud',
       description: 'Escribe 3 cosas por las que estás agradecido y explica por qué importan a tu éxito.',
       duration: '8 min'
     },
     {
-      id: 'c5', emoji: '🎯', category: 'focus',
+      id: 'c5', category: 'focus',
       title: 'Bloque de Enfoque',
       description: 'Elimina todas las distracciones y enfócate en tu tarea más importante por 25 minutos.',
       duration: '25 min'
     },
     {
-      id: 'c6', emoji: '📚', category: 'mindset',
+      id: 'c6', category: 'mindset',
       title: 'Leer y Reflexionar',
       description: 'Lee un capítulo de un libro inspirador. Escribe la lección más importante.',
       duration: '20 min'
     },
     {
-      id: 'c7', emoji: '💪', category: 'action',
+      id: 'c7', category: 'action',
       title: 'Acción Audaz',
       description: 'Haz algo que te asuste ligeramente hoy — una llamada, un mensaje, una decisión postergada.',
       duration: '10 min'

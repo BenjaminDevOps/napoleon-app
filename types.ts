@@ -21,7 +21,6 @@ export interface UserProfile {
 
 export interface Challenge {
   id: string;
-  emoji: string;
   title: string;
   description: string;
   duration: string;

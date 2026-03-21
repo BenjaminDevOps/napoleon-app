@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Pencil, Sparkles } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Pencil, Sparkles, Star, Repeat } from 'lucide-react';
 import { UserProfile } from '../../types';
 import { translations, affirmations as affirmationData } from '../../translations';
-import { Emoji } from './Icons';
 
 interface TabAffirmationsProps {
   user: UserProfile;
@@ -117,7 +116,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             {done ? (
-              <Emoji size={40}>🌟</Emoji>
+              <Sparkles size={40} color="#d4af37" />
             ) : (
               <>
                 <span
@@ -163,7 +162,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               className="px-6 py-3 rounded-2xl check-in"
               style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)' }}
             >
-              <Emoji size={20}>🌟</Emoji>
+              <Sparkles size={20} color="#4ade80" />
               <span className="text-[14px] font-bold" style={{ color: '#4ade80' }}>{t.affirmationRepeatDone}</span>
             </div>
             <button
@@ -416,7 +415,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
 
             {/* Save */}
             <button onClick={handleFavorite} className="flex-1 h-12 rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-[0.97]" style={{ background: isSaved ? 'rgba(212,175,55,0.14)' : 'rgba(255,255,255,0.06)', border: isSaved ? '1px solid rgba(212,175,55,0.4)' : '1px solid rgba(255,255,255,0.1)' }}>
-              <span className="text-base">{isSaved ? '★' : '☆'}</span>
+              <Star size={16} color={isSaved ? '#d4af37' : 'rgba(255,255,255,0.45)'} fill={isSaved ? '#d4af37' : 'none'} />
               <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: isSaved ? '#d4af37' : 'rgba(255,255,255,0.45)' }}>{isSaved ? t.affirmationSaved : t.affirmationFavorite}</span>
             </button>
 
@@ -427,7 +426,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)' }}
               title={t.affirmationRepeat}
             >
-              <Emoji size={14}>🔁</Emoji>
+              <Repeat size={14} color="#d4af37" />
               <span className="text-[8px] font-black" style={{ color: '#d4af37' }}>10×</span>
             </button>
 
