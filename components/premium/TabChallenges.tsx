@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { UserProfile } from '../../types';
 import { translations, challenges as challengeData } from '../../translations';
-import { Clock } from 'lucide-react';
-import { Emoji } from './Icons';
+import { Clock, Flame, CheckCircle2, Brain, Zap, Sparkles, Target } from 'lucide-react';
 
 interface TabChallengesProps {
   user: UserProfile;
@@ -14,6 +13,13 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
   action:   { bg: 'rgba(212,175,55,0.12)',  text: '#d4af37', border: 'rgba(212,175,55,0.3)' },
   gratitude:{ bg: 'rgba(34,197,94,0.12)',   text: '#4ade80', border: 'rgba(34,197,94,0.25)' },
   focus:    { bg: 'rgba(59,130,246,0.15)',  text: '#60a5fa', border: 'rgba(59,130,246,0.3)' },
+};
+
+const CATEGORY_ICONS: Record<string, React.FC<{ size: number; color: string }>> = {
+  mindset:  ({ size, color }) => <Brain size={size} color={color} />,
+  action:   ({ size, color }) => <Zap size={size} color={color} />,
+  gratitude:({ size, color }) => <Sparkles size={size} color={color} />,
+  focus:    ({ size, color }) => <Target size={size} color={color} />,
 };
 
 const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
@@ -78,7 +84,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               border: '1px solid rgba(212,175,55,0.25)',
             }}
           >
-            <Emoji size={16}>🔥</Emoji>
+            <Flame size={16} color="#d4af37" />
             <span
               className="text-[13px] font-bold"
               style={{ color: '#d4af37' }}
@@ -111,7 +117,9 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
               className="px-5 pt-5 pb-3 flex items-start justify-between"
             >
               <div className="flex items-center gap-3">
-                <Emoji size={36}>{todayChallenge.emoji}</Emoji>
+                <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: CATEGORY_COLORS[todayChallenge.category].bg, border: `1px solid ${CATEGORY_COLORS[todayChallenge.category].border}` }}>
+                  {CATEGORY_ICONS[todayChallenge.category]?.({ size: 20, color: CATEGORY_COLORS[todayChallenge.category].text })}
+                </div>
                 <div>
                   <span
                     className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
@@ -154,7 +162,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   className="flex items-center justify-center gap-2 py-3 rounded-xl check-in"
                   style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}
                 >
-                  <Emoji size={18}>✅</Emoji>
+                  <CheckCircle2 size={18} color="#4ade80" />
                   <span className="text-[12px] font-bold" style={{ color: '#4ade80' }}>
                     {t.challengeComplete}
                   </span>
@@ -205,7 +213,9 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                   }}
                   onClick={() => !done && handleComplete(ch.id)}
                 >
-                  <Emoji size={22}>{ch.emoji}</Emoji>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: CATEGORY_COLORS[ch.category].bg, border: `1px solid ${CATEGORY_COLORS[ch.category].border}` }}>
+                    {CATEGORY_ICONS[ch.category]?.({ size: 15, color: CATEGORY_COLORS[ch.category].text })}
+                  </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
