@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { MessageCircle, Trophy, Heart } from 'lucide-react';
-import { UserProfile, AppTab } from '../../types';
+import { UserProfile, AppTab, MAX_FREE_MESSAGES } from '../../types';
 import { translations } from '../../translations';
 import TabChat from './TabChat';
 import TabChallenges from './TabChallenges';
@@ -45,7 +45,7 @@ const PremiumHome: React.FC<PremiumHomeProps> = ({
     setActiveTab(tab);
   }, [activeTab]);
 
-  const isLimited = !user.isPremium && user.messageCount >= 5;
+  const isLimited = !user.isPremium && user.messageCount >= MAX_FREE_MESSAGES;
 
   const TabIcon = ({ tab, active }: { tab: AppTab; active: boolean }) => {
     const strokeWidth = active ? 2.5 : 1.5;

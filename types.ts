@@ -33,4 +33,4 @@ export interface Affirmation {
   author: string;
 }
 
-export const MAX_FREE_MESSAGES = 5;
+export const MAX_FREE_MESSAGES = 8;
