@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { UserProfile } from '../../types';
 import { translations, challenges as challengeData } from '../../translations';
-import { Emoji, ClockIcon, SparkIcon } from './Icons';
+import { Clock } from 'lucide-react';
+import { Emoji } from './Icons';
 
 interface TabChallengesProps {
   user: UserProfile;
@@ -135,7 +136,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
               >
                 <span className="text-[10px] font-bold" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                  <ClockIcon size={11} color="rgba(255,255,255,0.45)" /> {todayChallenge.duration}
+                  <Clock size={11} color="rgba(255,255,255,0.45)" /> {todayChallenge.duration}
                 </span>
               </div>
             </div>
@@ -214,7 +215,7 @@ const TabChallenges: React.FC<TabChallengesProps> = ({ user, onComplete }) => {
                       >
                         {ch.category}
                       </span>
-                      <span className="text-[9px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.3)' }}><ClockIcon size={10} color="rgba(255,255,255,0.3)" /> {ch.duration}</span>
+                      <span className="text-[9px] flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.3)' }}><Clock size={10} color="rgba(255,255,255,0.3)" /> {ch.duration}</span>
                     </div>
                     <h4
                       className="text-[14px] font-semibold truncate"

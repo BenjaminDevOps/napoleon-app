@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useRef } from 'react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Pencil, Sparkles } from 'lucide-react';
 import { UserProfile } from '../../types';
 import { translations, affirmations as affirmationData } from '../../translations';
-import { SparkIcon, Emoji } from './Icons';
+import { Emoji } from './Icons';
 
 interface TabAffirmationsProps {
   user: UserProfile;
@@ -88,9 +89,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
             onClick={() => setMode(customText ? 'custom' : 'browse')}
             className="flex items-center gap-2 active:opacity-60 transition-opacity"
           >
-            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-            </svg>
+            <ArrowLeft size={20} color="rgba(255,255,255,0.4)" />
             <span className="text-[12px] font-bold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
               {t.affirmationRepeatBack}
             </span>
@@ -189,7 +188,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               transition: 'all 0.15s ease',
             }}
           >
-            <SparkIcon size={28} color={repeatFlash ? '#0a0a1a' : '#d4af37'} />
+            <Sparkles size={28} color={repeatFlash ? '#0a0a1a' : '#d4af37'} />
           </button>
         )}
 
@@ -221,9 +220,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
           onClick={() => setMode('browse')}
           className="flex items-center gap-2 mb-8 active:opacity-60 transition-opacity self-start"
         >
-          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-          </svg>
+          <ArrowLeft size={20} color="rgba(255,255,255,0.4)" />
           <span className="text-[12px] font-bold uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
             {t.affirmationsHeader}
           </span>
@@ -346,9 +343,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
               border: '1px solid rgba(212,175,55,0.25)',
             }}
           >
-            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" style={{ color: '#d4af37' }}>
-              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm17.71-10.21a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-            </svg>
+            <Pencil size={14} color="#d4af37" />
             <span className="text-[9px] font-black uppercase tracking-wider" style={{ color: '#d4af37' }}>
               Mine
             </span>
@@ -358,7 +353,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
         {/* Affirmation of day label */}
         <div className="mb-4 anim-fade-up delay-100">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: 'rgba(212,175,55,0.15)', border: '1px solid rgba(212,175,55,0.3)' }}><SparkIcon size={10} color="#d4af37" /></div>
+            <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: 'rgba(212,175,55,0.15)', border: '1px solid rgba(212,175,55,0.3)' }}><Sparkles size={10} color="#d4af37" /></div>
             <span className="text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: 'rgba(212,175,55,0.8)' }}>{t.affirmationOfDay}</span>
           </div>
         </div>
@@ -380,7 +375,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
             {/* Breathing circle */}
             <div className="flex justify-center pt-10 pb-4">
               <div className="breathe rounded-full flex items-center justify-center" style={{ width: 64, height: 64, background: 'radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)', border: '1px solid rgba(212,175,55,0.2)' }}>
-                <SparkIcon size={22} color="#d4af37" />
+                <Sparkles size={22} color="#d4af37" />
               </div>
             </div>
 
@@ -416,7 +411,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
           {/* Action row */}
           <div className="flex gap-3 mt-4">
             <button onClick={() => navigate('prev')} className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform active:scale-90 shrink-0" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" style={{ color: 'rgba(255,255,255,0.5)' }}><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              <ChevronLeft size={20} color="rgba(255,255,255,0.5)" />
             </button>
 
             {/* Save */}
@@ -437,7 +432,7 @@ const TabAffirmations: React.FC<TabAffirmationsProps> = ({ user, onFavorite }) =
             </button>
 
             <button onClick={() => navigate('next')} className="btn-gold w-12 h-12 rounded-2xl flex items-center justify-center transition-transform active:scale-90 shrink-0">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" style={{ color: '#0a0a1a' }}><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+              <ChevronRight size={20} color="#0a0a1a" />
             </button>
           </div>
 

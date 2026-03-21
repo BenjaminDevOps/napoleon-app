@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Infinity, Target, Library, Bell, Sparkles } from 'lucide-react';
 import { requestPurchase } from '../services/billingService';
 import { AppLanguage } from '../types';
 import { translations } from '../translations';
@@ -10,13 +11,35 @@ interface SubscriptionModalProps {
   onSubscribe: () => void;
 }
 
-const PERKS = ['♾️ Unlimited AI conversations', '🎯 Daily challenges & streak tracking', '✦ Full affirmation library', '🔔 Daily motivation reminders'];
-const PERKS_FR = ['♾️ Conversations IA illimitées', '🎯 Défis quotidiens & séries', '✦ Bibliothèque d\'affirmations', '🔔 Rappels quotidiens'];
-const PERKS_ES = ['♾️ Conversaciones IA ilimitadas', '🎯 Desafíos diarios & rachas', '✦ Biblioteca de afirmaciones', '🔔 Recordatorios diarios'];
+interface Perk {
+  icon: React.ReactNode;
+  text: string;
+}
+
+const GOLD = '#d4af37';
+
+const PERKS_EN: Perk[] = [
+  { icon: <Infinity size={18} color={GOLD} />, text: 'Unlimited AI conversations' },
+  { icon: <Target size={18} color={GOLD} />, text: 'Daily challenges & streak tracking' },
+  { icon: <Library size={18} color={GOLD} />, text: 'Full affirmation library' },
+  { icon: <Bell size={18} color={GOLD} />, text: 'Daily motivation reminders' },
+];
+const PERKS_FR: Perk[] = [
+  { icon: <Infinity size={18} color={GOLD} />, text: 'Conversations IA illimitées' },
+  { icon: <Target size={18} color={GOLD} />, text: 'Défis quotidiens & séries' },
+  { icon: <Library size={18} color={GOLD} />, text: "Bibliothèque d'affirmations" },
+  { icon: <Bell size={18} color={GOLD} />, text: 'Rappels quotidiens' },
+];
+const PERKS_ES: Perk[] = [
+  { icon: <Infinity size={18} color={GOLD} />, text: 'Conversaciones IA ilimitadas' },
+  { icon: <Target size={18} color={GOLD} />, text: 'Desafíos diarios & rachas' },
+  { icon: <Library size={18} color={GOLD} />, text: 'Biblioteca de afirmaciones' },
+  { icon: <Bell size={18} color={GOLD} />, text: 'Recordatorios diarios' },
+];
 
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, onSubscribe }) => {
   const t = translations[lang];
-  const perks = lang === 'fr' ? PERKS_FR : lang === 'es' ? PERKS_ES : PERKS;
+  const perks = lang === 'fr' ? PERKS_FR : lang === 'es' ? PERKS_ES : PERKS_EN;
 
   const handlePay = () => {
     requestPurchase();
@@ -54,8 +77,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4"
             style={{ background: 'rgba(212,175,55,0.12)', border: '1px solid rgba(212,175,55,0.3)' }}
           >
-            <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#d4af37' }}>
-              ✦ Master Mind Access
+            <Sparkles size={12} color={GOLD} />
+            <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: GOLD }}>
+              Master Mind Access
             </span>
           </div>
           <h2
@@ -83,9 +107,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
                 border: '1px solid rgba(255,255,255,0.07)',
               }}
             >
-              <span className="text-base">{perk.split(' ')[0]}</span>
+              <div className="shrink-0">{perk.icon}</div>
               <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.75)' }}>
-                {perk.split(' ').slice(1).join(' ')}
+                {perk.text}
               </span>
             </div>
           ))}

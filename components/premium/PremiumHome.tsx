@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { MessageCircle, Trophy, Heart } from 'lucide-react';
 import { UserProfile, AppTab } from '../../types';
 import { translations } from '../../translations';
 import TabChat from './TabChat';
@@ -16,25 +17,6 @@ interface PremiumHomeProps {
   showPaywall: boolean;
   onClosePaywall: () => void;
 }
-
-// ── Tab bar icon components ──
-const IconChat = ({ active }: { active: boolean }) => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={active ? 2 : 1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-);
-
-const IconChallenges = ({ active }: { active: boolean }) => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={active ? 2 : 1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-  </svg>
-);
-
-const IconAffirmations = ({ active }: { active: boolean }) => (
-  <svg viewBox="0 0 24 24" className="w-6 h-6" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={active ? 0 : 1.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-  </svg>
-);
 
 const TABS: { key: AppTab; labelKey: string }[] = [
   { key: 'chat',         labelKey: 'tabChat' },
@@ -66,9 +48,10 @@ const PremiumHome: React.FC<PremiumHomeProps> = ({
   const isLimited = !user.isPremium && user.messageCount >= 5;
 
   const TabIcon = ({ tab, active }: { tab: AppTab; active: boolean }) => {
-    if (tab === 'chat')         return <IconChat active={active} />;
-    if (tab === 'challenges')   return <IconChallenges active={active} />;
-    if (tab === 'affirmations') return <IconAffirmations active={active} />;
+    const strokeWidth = active ? 2.5 : 1.5;
+    if (tab === 'chat')         return <MessageCircle size={24} strokeWidth={strokeWidth} />;
+    if (tab === 'challenges')   return <Trophy size={24} strokeWidth={strokeWidth} />;
+    if (tab === 'affirmations') return <Heart size={24} strokeWidth={strokeWidth} fill={active ? 'currentColor' : 'none'} />;
     return null;
   };
 

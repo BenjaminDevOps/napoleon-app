@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Send } from 'lucide-react';
 import { Message, UserProfile } from '../../types';
 import { generateNapoleonResponse } from '../../services/geminiService';
 import { translations } from '../../translations';
@@ -246,13 +247,10 @@ const TabChat: React.FC<TabChatProps> = ({ user, onMessageSent, onUpgrade, isLim
                 boxShadow: input.trim() && !isTyping ? '0 4px 12px rgba(212,175,55,0.35)' : 'none',
               }}
             >
-              <svg
-                viewBox="0 0 24 24"
-                className="w-4 h-4 fill-current"
-                style={{ color: input.trim() && !isTyping ? '#0a0a1a' : 'rgba(255,255,255,0.2)' }}
-              >
-                <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z"/>
-              </svg>
+              <Send
+                size={16}
+                color={input.trim() && !isTyping ? '#0a0a1a' : 'rgba(255,255,255,0.2)'}
+              />
             </button>
           </div>
         )}
