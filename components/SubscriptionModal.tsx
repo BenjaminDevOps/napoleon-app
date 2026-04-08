@@ -13,11 +13,8 @@ interface SubscriptionModalProps {
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, onSubscribe }) => {
   const t = translations[lang];
 
-  const handlePay = () => {
-    requestPurchase();
-    if (!(window as any).store) {
-      setTimeout(() => onSubscribe(), 2000);
-    }
+  const handlePay = async () => {
+    await requestPurchase();
   };
 
   return (
