@@ -1,205 +1,146 @@
 /**
- * Service de facturation In-App (Google Play & Apple App Store)
- * Compatible Capacitor + cordova-plugin-purchase v13+
+ * billingService.ts — @capgo/native-purchases
  *
- * Plateformes supportées :
- *   - Apple App Store (iOS)
- *   - Google Play (Android)
- *
- * Exigences App Store Apple respectées :
- *   - Bouton "Restaurer les achats" disponible
- *   - Vérification + finalisation des transactions
- *   - Gestion des erreurs utilisateur
+ * Remplace cordova-plugin-purchase par l'API Capacitor native.
+ * iOS  → StoreKit 2
+ * Android → Google Play Billing
  */
 
-declare const CdvPurchase: any;
-declare const Capacitor: any;
+import { NativePurchases } from '@capgo/native-purchases';
 
 export const PRODUCT_ID = 'sub_mastermind_monthly';
 
-// --- Détection de plateforme ---
-const getActivePlatform = (): 'ios' | 'android' | 'browser' => {
-  // Capacitor expose la plateforme native
-  if (typeof Capacitor !== 'undefined' && Capacitor.isNativePlatform()) {
-    return Capacitor.getPlatform() === 'ios' ? 'ios' : 'android';
-  }
-  return 'browser';
-};
-
-// --- Messages d'erreur multilingues ---
-const errorMessages = {
-  en: {
-    notAvailable: 'Product not available. Please check your internet connection and try again.',
-    cannotPurchase: 'This product is not available for purchase at this time.',
-    noOffer: 'Unable to process purchase. Please try again later.',
-    purchaseError: 'Error initiating purchase. Please try again.',
-    restoreSuccess: 'Purchases restored successfully!',
-    restoreNone: 'No previous purchases found to restore.',
-    restoreError: 'Unable to restore purchases. Please try again.',
-    browserMode: 'Purchase simulation active (browser mode)',
-  },
-  fr: {
-    notAvailable: 'Produit non disponible. Vérifiez votre connexion internet et réessayez.',
-    cannotPurchase: 'Ce produit n\'est pas disponible à l\'achat pour le moment.',
-    noOffer: 'Impossible de traiter l\'achat. Veuillez réessayer plus tard.',
-    purchaseError: 'Erreur lors de l\'initiation de l\'achat. Veuillez réessayer.',
-    restoreSuccess: 'Achats restaurés avec succès !',
-    restoreNone: 'Aucun achat précédent trouvé à restaurer.',
-    restoreError: 'Impossible de restaurer les achats. Veuillez réessayer.',
-    browserMode: 'Simulation d\'achat active (mode navigateur)',
-  },
-  es: {
-    notAvailable: 'Producto no disponible. Verifique su conexión a internet e intente de nuevo.',
-    cannotPurchase: 'Este producto no está disponible para compra en este momento.',
-    noOffer: 'No se puede procesar la compra. Por favor, inténtelo más tarde.',
-    purchaseError: 'Error al iniciar la compra. Por favor, inténtelo de nuevo.',
-    restoreSuccess: '¡Compras restauradas con éxito!',
-    restoreNone: 'No se encontraron compras anteriores para restaurar.',
-    restoreError: 'No se pueden restaurar las compras. Por favor, inténtelo de nuevo.',
-    browserMode: 'Simulación de compra activa (modo navegador)',
-  },
-};
-
 type Lang = 'en' | 'fr' | 'es';
 
-const getMsg = (lang: Lang, key: keyof typeof errorMessages.en): string => {
-  return (errorMessages[lang] ?? errorMessages.en)[key];
+const isNative = (): boolean =>
+  typeof (window as any).Capacitor !== 'undefined' &&
+  (window as any).Capacitor.isNativePlatform();
+
+// ─── Messages d'erreur multilingues ────────────────────────────────────────
+
+const msg = {
+  en: {
+    notAvailable : 'Product not available. Check your connection and try again.',
+    purchaseError: 'Error initiating purchase. Please try again.',
+    restoreNone  : 'No previous purchases found.',
+    restoreError : 'Unable to restore purchases. Please try again.',
+    browserMode  : 'Purchase simulation (browser mode)',
+  },
+  fr: {
+    notAvailable : 'Produit non disponible. Vérifiez votre connexion et réessayez.',
+    purchaseError: 'Erreur lors de l\'achat. Veuillez réessayer.',
+    restoreNone  : 'Aucun achat précédent trouvé.',
+    restoreError : 'Impossible de restaurer les achats. Veuillez réessayer.',
+    browserMode  : 'Simulation d\'achat (mode navigateur)',
+  },
+  es: {
+    notAvailable : 'Producto no disponible. Verifique su conexión e intente de nuevo.',
+    purchaseError: 'Error al iniciar la compra. Por favor, inténtelo de nuevo.',
+    restoreNone  : 'No se encontraron compras anteriores.',
+    restoreError : 'No se pueden restaurar las compras. Por favor, inténtelo de nuevo.',
+    browserMode  : 'Simulación de compra (modo navegador)',
+  },
+} as const;
+
+const t = (lang: Lang, key: keyof typeof msg.en): string =>
+  msg[lang]?.[key] ?? msg.en[key];
+
+// ─── Vérifier si l'abonnement est actif ────────────────────────────────────
+
+const checkActiveSubscription = async (): Promise<boolean> => {
+  try {
+    const result = await NativePurchases.getPurchases();
+    const purchases = result?.purchases ?? [];
+    return purchases.some(
+      (p: any) =>
+        p.productIdentifier === PRODUCT_ID &&
+        (p.isActive === true || p.subscriptionState === 'subscribed')
+    );
+  } catch {
+    return false;
+  }
 };
 
-// --- Initialisation du billing ---
-export const initBilling = (onPurchaseSuccess: () => void): void => {
-  if (typeof CdvPurchase === 'undefined') {
-    // Pas en environnement natif Cordova/Capacitor
-    return;
-  }
+// ─── Initialisation ─────────────────────────────────────────────────────────
+
+export const initBilling = async (onPurchaseSuccess: () => void): Promise<void> => {
+  if (!isNative()) return;
 
   try {
-    const { store, ProductType, Platform } = CdvPurchase;
-    const platform = getActivePlatform();
+    // Vérifier un abonnement existant au démarrage
+    const active = await checkActiveSubscription();
+    if (active) {
+      onPurchaseSuccess();
+      return;
+    }
 
-    // Choisir la plateforme de facturation selon l'OS natif
-    const billingPlatform =
-      platform === 'ios' ? Platform.APPLE_APPSTORE : Platform.GOOGLE_PLAY;
+    // Écouter les nouvelles transactions
+    await NativePurchases.addListener('transactionUpdated', async (transaction: any) => {
+      if (transaction?.productIdentifier !== PRODUCT_ID) return;
 
-    // Enregistrement du produit d'abonnement
-    store.register({
-      id: PRODUCT_ID,
-      type: ProductType.PAID_SUBSCRIPTION,
-      platform: billingPlatform,
-    });
-
-    // Flux de transaction
-    store
-      .when()
-      .approved((transaction: any) => {
-        // Vérification avant de finaliser
-        transaction.verify();
-      })
-      .verified((receipt: any) => {
-        // Finalisation — indispensable pour que la transaction soit acquittée
-        receipt.finish();
-        onPurchaseSuccess();
-      })
-      .unverified((_receipt: any) => {
-        console.error('[Billing] Purchase verification failed');
-      });
-
-    // Gestion des erreurs store
-    store.error((error: any) => {
-      console.error('[Billing] Store error:', error);
-    });
-
-    // Initialisation — on passe uniquement la plateforme active
-    store.initialize([billingPlatform]);
-
-    // Vérification à la restauration automatique (re-launch de l'app)
-    store.ready(() => {
-      const product = store.get(PRODUCT_ID, billingPlatform);
-      if (product && product.owned) {
-        onPurchaseSuccess();
+      // Acquittement Android si nécessaire
+      if (transaction.isAcknowledged === false && transaction.purchaseToken) {
+        try {
+          await NativePurchases.acknowledgePurchase({
+            purchaseToken: transaction.purchaseToken,
+          });
+        } catch (e) {
+          console.warn('[Billing] Acknowledge error:', e);
+        }
       }
+
+      onPurchaseSuccess();
     });
   } catch (error) {
-    console.error('[Billing] Initialization error:', error);
+    console.error('[Billing] Init error:', error);
   }
 };
 
-// --- Achat ---
-export const requestPurchase = (lang: Lang = 'en'): void => {
-  if (typeof CdvPurchase === 'undefined') {
-    alert(getMsg(lang, 'browserMode'));
+// ─── Achat ──────────────────────────────────────────────────────────────────
+
+export const requestPurchase = async (lang: Lang = 'en'): Promise<void> => {
+  if (!isNative()) {
+    alert(t(lang, 'browserMode'));
     return;
   }
 
   try {
-    const { store } = CdvPurchase;
-    const platform = getActivePlatform();
-    const billingPlatform =
-      platform === 'ios'
-        ? CdvPurchase.Platform.APPLE_APPSTORE
-        : CdvPurchase.Platform.GOOGLE_PLAY;
-
-    const product = store.get(PRODUCT_ID, billingPlatform);
-
-    if (!product) {
-      alert(getMsg(lang, 'notAvailable'));
-      return;
+    await NativePurchases.purchaseProduct({
+      productIdentifier: PRODUCT_ID,
+      quantity         : 1,
+      productType      : 'subs',
+    } as any);
+  } catch (error: any) {
+    // code 2 = cancelled par l'utilisateur → ne pas afficher d'alerte
+    if (error?.code !== 2) {
+      console.error('[Billing] Purchase error:', error);
+      alert(t(lang, 'purchaseError'));
     }
-
-    if (!product.canPurchase) {
-      alert(getMsg(lang, 'cannotPurchase'));
-      return;
-    }
-
-    const offer = product.getOffer();
-
-    if (!offer) {
-      alert(getMsg(lang, 'noOffer'));
-      return;
-    }
-
-    store.order(offer);
-  } catch (error) {
-    console.error('[Billing] Purchase request error:', error);
-    alert(getMsg(lang, 'purchaseError'));
   }
 };
 
-// --- Restaurer les achats (OBLIGATOIRE App Store Apple) ---
-export const restorePurchases = (
+// ─── Restaurer les achats (obligatoire App Store Apple) ─────────────────────
+
+export const restorePurchases = async (
   lang: Lang = 'en',
   onRestored: () => void
-): void => {
-  if (typeof CdvPurchase === 'undefined') {
-    // Navigateur : simuler une restauration
-    alert(getMsg(lang, 'browserMode'));
+): Promise<void> => {
+  if (!isNative()) {
+    alert(t(lang, 'browserMode'));
     return;
   }
 
   try {
-    const { store } = CdvPurchase;
+    await NativePurchases.restorePurchases();
+    const active = await checkActiveSubscription();
 
-    store.restorePurchases().then(() => {
-      const platform = getActivePlatform();
-      const billingPlatform =
-        platform === 'ios'
-          ? CdvPurchase.Platform.APPLE_APPSTORE
-          : CdvPurchase.Platform.GOOGLE_PLAY;
-
-      const product = store.get(PRODUCT_ID, billingPlatform);
-
-      if (product && product.owned) {
-        onRestored();
-        alert(getMsg(lang, 'restoreSuccess'));
-      } else {
-        alert(getMsg(lang, 'restoreNone'));
-      }
-    }).catch((err: any) => {
-      console.error('[Billing] Restore error:', err);
-      alert(getMsg(lang, 'restoreError'));
-    });
+    if (active) {
+      onRestored();
+    } else {
+      alert(t(lang, 'restoreNone'));
+    }
   } catch (error) {
-    console.error('[Billing] Restore exception:', error);
-    alert(getMsg(lang, 'restoreError'));
+    console.error('[Billing] Restore error:', error);
+    alert(t(lang, 'restoreError'));
   }
 };

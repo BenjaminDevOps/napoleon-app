@@ -13,24 +13,68 @@ interface AutoSuggestionData {
   lastResetDate?: string;
 }
 
+const i18n = {
+  en: {
+    title: 'Auto-Suggestion',
+    subtitle: 'Your Daily Affirmation',
+    placeholder: 'Write your definite chief aim or affirmation here…',
+    example: '"I am earning $100,000 per year and I am free to pursue my passions."',
+    save: 'Save Phrase',
+    edit: 'Edit Phrase',
+    repeat: 'I Affirm',
+    reset: 'Reset',
+    progress: 'Daily Progress',
+    complete: 'Daily Goal Complete!',
+    completeSub: 'You master your destiny!',
+    instruction: 'Read your phrase aloud with emotion and belief. Repeat 10 times daily.',
+  },
+  fr: {
+    title: 'Auto-Suggestion',
+    subtitle: 'Votre Affirmation Quotidienne',
+    placeholder: 'Écrivez votre objectif principal défini ici…',
+    example: '"Je gagne 100 000\u20AC par an et je suis libre de poursuivre mes passions."',
+    save: 'Enregistrer',
+    edit: 'Modifier',
+    repeat: 'J\'affirme',
+    reset: 'Réinitialiser',
+    progress: 'Progrès Quotidien',
+    complete: 'Objectif Quotidien Atteint !',
+    completeSub: 'Vous maîtrisez votre destin !',
+    instruction: 'Lisez votre phrase à voix haute avec émotion et conviction. Répétez 10 fois par jour.',
+  },
+  es: {
+    title: 'Auto-Sugestión',
+    subtitle: 'Tu Afirmación Diaria',
+    placeholder: 'Escribe tu propósito definido o tu afirmación aquí…',
+    example: '"Estoy ganando $100,000 al año y soy libre de seguir mis pasiones."',
+    save: 'Guardar',
+    edit: 'Editar',
+    repeat: 'Afirmo',
+    reset: 'Reiniciar',
+    progress: 'Progreso Diario',
+    complete: '¡Meta Diaria Completada!',
+    completeSub: '¡Controlas tu destino!',
+    instruction: 'Lee tu frase en voz alta con emoción y creencia. Repite 10 veces al día.',
+  },
+};
+
+const confettiIcons = [IconCelebration, IconStar, IconSparkles, IconStarOutline, IconTwinkle];
+
 const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
-  const getTodayDate = () => {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  };
+  const t = i18n[language];
+
+  const getTodayDate = () => new Date().toISOString().split('T')[0];
 
   const [data, setData] = useState<AutoSuggestionData>(() => {
     const saved = localStorage.getItem('autosuggestion_data');
     const today = getTodayDate();
-
     if (saved) {
-      const parsedData = JSON.parse(saved);
-      if (parsedData.lastResetDate !== today) {
-        return { ...parsedData, count: 0, lastResetDate: today };
+      const parsed = JSON.parse(saved);
+      if (parsed.lastResetDate !== today) {
+        return { ...parsed, count: 0, lastResetDate: today };
       }
-      return parsedData;
+      return parsed;
     }
-
     return { phrase: '', count: 0, dailyGoal: 10, lastResetDate: today };
   });
 
@@ -43,91 +87,40 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
   }, [data]);
 
   const handleRepeat = () => {
-    if (data.count < data.dailyGoal) {
-      const newCount = data.count + 1;
-      const today = getTodayDate();
-      setData(prev => ({ ...prev, count: newCount, lastResetDate: today }));
-
-      if (newCount === data.dailyGoal) {
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 3000);
-      }
+    if (data.count >= data.dailyGoal) return;
+    const newCount = data.count + 1;
+    setData(prev => ({ ...prev, count: newCount, lastResetDate: getTodayDate() }));
+    if (newCount === data.dailyGoal) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
     }
   };
 
   const handleReset = () => {
-    const today = getTodayDate();
-    setData(prev => ({ ...prev, count: 0, lastResetDate: today }));
+    setData(prev => ({ ...prev, count: 0, lastResetDate: getTodayDate() }));
   };
 
   const handleSavePhrase = () => {
-    if (tempPhrase.trim()) {
-      const today = getTodayDate();
-      setData(prev => ({ ...prev, phrase: tempPhrase.trim(), count: 0, lastResetDate: today }));
-      setIsEditing(false);
-    }
+    if (!tempPhrase.trim()) return;
+    setData(prev => ({ ...prev, phrase: tempPhrase.trim(), count: 0, lastResetDate: getTodayDate() }));
+    setIsEditing(false);
   };
 
-  const handleEditPhrase = () => {
-    setTempPhrase(data.phrase);
-    setIsEditing(true);
-  };
-
-  // Composants SVG pour l'animation confetti (remplacent les emoji)
-  const confettiIcons = [IconCelebration, IconStar, IconSparkles, IconStarOutline, IconTwinkle];
-
-  const translations = {
-    en: {
-      title: 'Auto-Suggestion',
-      subtitle: 'Your Daily Affirmation',
-      placeholder: 'Write your definite chief aim or affirmation here...',
-      example: 'Example: "I am earning $100,000 per year and I am free to pursue my passions."',
-      save: 'Save Phrase',
-      edit: 'Edit Phrase',
-      repeat: 'I Affirm',
-      reset: 'Reset Count',
-      progress: 'Daily Progress',
-      complete: 'Daily Goal Complete!',
-      instruction: 'Read your phrase aloud with emotion and belief. Repeat 10 times daily.',
-    },
-    fr: {
-      title: 'Auto-Suggestion',
-      subtitle: 'Votre Affirmation Quotidienne',
-      placeholder: 'Écrivez votre objectif principal défini ou votre affirmation ici...',
-      example: 'Exemple: "Je gagne 100 000\u20AC par an et je suis libre de poursuivre mes passions."',
-      save: 'Enregistrer',
-      edit: 'Modifier',
-      repeat: 'J\'affirme',
-      reset: 'Réinitialiser',
-      progress: 'Progrès Quotidien',
-      complete: 'Objectif Quotidien Atteint !',
-      instruction: 'Lisez votre phrase à voix haute avec émotion et conviction. Répétez 10 fois par jour.',
-    },
-    es: {
-      title: 'Auto-Sugestión',
-      subtitle: 'Tu Afirmación Diaria',
-      placeholder: 'Escribe tu propósito definido o tu afirmación aquí...',
-      example: 'Ejemplo: "Estoy ganando $100,000 al año y soy libre de seguir mis pasiones."',
-      save: 'Guardar',
-      edit: 'Editar',
-      repeat: 'Afirmo',
-      reset: 'Reiniciar',
-      progress: 'Progreso Diario',
-      complete: 'Meta Diaria Completada!',
-      instruction: 'Lee tu frase en voz alta con emoción y creencia. Repite 10 veces al día.',
-    },
-  };
-
-  const t = translations[language];
-  const progress = (data.count / data.dailyGoal) * 100;
+  const progress = Math.min((data.count / data.dailyGoal) * 100, 100);
   const isComplete = data.count >= data.dailyGoal;
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-[#1a2b48] to-[#121c2f] p-6 overflow-y-auto relative">
-      {/* Confetti Effect — icônes SVG au lieu d'emoji */}
+    <div
+      className="flex flex-col h-full overflow-y-auto"
+      style={{
+        background: 'linear-gradient(180deg, #0d1826 0%, #091320 100%)',
+        paddingTop: 'env(safe-area-inset-top)',
+      }}
+    >
+      {/* ── Confetti ──────────────────────────────────────────────── */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
-          {Array.from({ length: 30 }).map((_, i) => {
+          {Array.from({ length: 28 }).map((_, i) => {
             const Icon = confettiIcons[i % confettiIcons.length];
             return (
               <div
@@ -135,159 +128,196 @@ const AutoSuggestion: React.FC<AutoSuggestionProps> = ({ language }) => {
                 className="absolute animate-fall"
                 style={{
                   left: `${Math.random() * 100}%`,
-                  top: '-20px',
-                  animationDelay: `${Math.random() * 0.5}s`,
-                  animationDuration: `${2 + Math.random() * 1}s`,
+                  top: '-24px',
+                  animationDelay: `${Math.random() * 0.6}s`,
+                  animationDuration: `${2.2 + Math.random() * 1}s`,
                 }}
               >
-                <Icon size={16} color="#d4af37" />
+                <Icon size={14} color="#d4af37" />
               </div>
             );
           })}
         </div>
       )}
 
-      <style>{`
-        @keyframes fall {
-          to {
-            transform: translateY(100vh) rotate(360deg);
-            opacity: 0;
-          }
-        }
-        .animate-fall {
-          animation: fall linear forwards;
-        }
-      `}</style>
-
-      {/* Header */}
-      <div className="text-center mb-8 pt-[env(safe-area-inset-top)]">
-        <h1 className="font-serif text-3xl font-black text-[#d4af37] mb-2 uppercase tracking-wider">
+      {/* ── Header ────────────────────────────────────────────────── */}
+      <div
+        className="shrink-0 px-5 py-4 text-center"
+        style={{
+          background: 'rgba(10,18,30,0.92)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+        }}
+      >
+        <h1
+          className="font-serif font-black text-[#d4af37] uppercase"
+          style={{ fontSize: '1.2rem', letterSpacing: '0.12em' }}
+        >
           {t.title}
         </h1>
-        <p className="text-white/60 text-sm italic">{t.subtitle}</p>
+        <p className="text-white/35 text-[11px] italic mt-0.5">{t.subtitle}</p>
       </div>
 
-      {/* Instruction */}
-      <div className="bg-white/5 border border-[#d4af37]/20 rounded-xl p-4 mb-6 backdrop-blur-sm">
-        <div className="flex items-start gap-2">
+      {/* ── Scrollable body ───────────────────────────────────────── */}
+      <div className="flex-1 px-5 py-5 space-y-4 overflow-y-auto">
+
+        {/* Instruction */}
+        <div
+          className="flex items-start gap-3 p-4 rounded-2xl"
+          style={{
+            background: 'rgba(212,175,55,0.06)',
+            border: '1px solid rgba(212,175,55,0.15)',
+          }}
+        >
           <IconLightbulb size={16} color="#d4af37" className="shrink-0 mt-0.5" />
-          <p className="text-white/80 text-xs leading-relaxed text-center flex-1">
-            {t.instruction}
-          </p>
+          <p className="text-white/60 text-[12px] leading-relaxed">{t.instruction}</p>
         </div>
-      </div>
 
-      {/* Phrase Editor or Display */}
-      {isEditing ? (
-        <div className="mb-6">
-          <textarea
-            value={tempPhrase}
-            onChange={(e) => setTempPhrase(e.target.value)}
-            placeholder={t.placeholder}
-            className="w-full bg-white/5 border-2 border-[#d4af37]/40 rounded-xl p-4 text-white text-base leading-relaxed focus:outline-none focus:border-[#d4af37] min-h-[120px] resize-none"
-            autoFocus
-          />
-          <p className="text-white/40 text-xs mt-2 italic mb-3">{t.example}</p>
-          <button
-            onClick={handleSavePhrase}
-            disabled={!tempPhrase.trim()}
-            className={`w-full py-3 rounded-xl font-bold uppercase tracking-wider text-sm transition-all ${
-              tempPhrase.trim()
-                ? 'btn-gold active:scale-95'
-                : 'bg-white/5 text-white/30 cursor-not-allowed'
-            }`}
+        {/* ── Phrase editor / display ───────────────────────────── */}
+        {isEditing ? (
+          <div className="space-y-3 animate-fadeInUp">
+            <textarea
+              value={tempPhrase}
+              onChange={(e) => setTempPhrase(e.target.value)}
+              placeholder={t.placeholder}
+              autoFocus
+              className="w-full bg-transparent text-white text-[15px] leading-relaxed focus:outline-none min-h-[110px] resize-none placeholder:text-white/22 placeholder:font-light"
+              style={{
+                padding: '16px',
+                borderRadius: '16px',
+                background: 'rgba(255,255,255,0.04)',
+                border: '1.5px solid rgba(212,175,55,0.35)',
+              }}
+            />
+            <p className="text-white/30 text-[11px] italic px-1">{t.example}</p>
+            <button
+              onClick={handleSavePhrase}
+              disabled={!tempPhrase.trim()}
+              className={`w-full py-3.5 rounded-2xl font-black uppercase tracking-wider text-[12px] transition-all ${
+                tempPhrase.trim()
+                  ? 'btn-gold shimmer active:scale-95'
+                  : 'text-white/20 cursor-not-allowed'
+              }`}
+              style={!tempPhrase.trim() ? { background: 'rgba(255,255,255,0.05)' } : {}}
+            >
+              {t.save}
+            </button>
+          </div>
+        ) : (
+          <div
+            className="p-5 rounded-2xl animate-fadeInUp"
+            style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1.5px solid rgba(212,175,55,0.25)',
+            }}
           >
-            {t.save}
-          </button>
-        </div>
-      ) : (
-        <div className="mb-6">
-          <div className="bg-white/5 border-2 border-[#d4af37]/40 rounded-xl p-6 backdrop-blur-sm">
-            <p className="text-white text-lg font-serif leading-relaxed text-center mb-4">
+            <p className="text-white font-serif text-[16px] leading-relaxed text-center mb-4">
               "{data.phrase}"
             </p>
             <button
-              onClick={handleEditPhrase}
-              className="text-[#d4af37] text-xs uppercase tracking-wider hover:underline mx-auto block"
+              onClick={() => { setTempPhrase(data.phrase); setIsEditing(true); }}
+              className="text-[#d4af37]/60 text-[11px] uppercase tracking-wider mx-auto block font-bold"
             >
               {t.edit}
             </button>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Progress Bar */}
-      {!isEditing && (
-        <>
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-white/60 text-xs uppercase tracking-wider">{t.progress}</span>
-              <span className="text-[#d4af37] font-bold text-sm">
-                {data.count} / {data.dailyGoal}
-              </span>
-            </div>
-            <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
-              <div
-                className={`h-full transition-all duration-500 ${
-                  isComplete ? 'bg-green-500' : 'bg-gradient-to-r from-[#d4af37] to-[#f1d27b]'
-                }`}
-                style={{ width: `${Math.min(progress, 100)}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Complete Message */}
-          {isComplete && (
-            <div className="bg-gradient-to-r from-green-500/20 to-[#d4af37]/20 border-2 border-green-500/50 rounded-xl p-4 mb-6 text-center animate-pulse">
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <IconCelebration size={22} color="#4ade80" />
-                <p className="text-green-400 font-black text-lg">{t.complete}</p>
+        {/* ── Progress & actions ────────────────────────────────── */}
+        {!isEditing && (
+          <>
+            {/* Progress bar */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-white/35 text-[11px] uppercase tracking-wider">{t.progress}</span>
+                <span className="text-[#d4af37] font-bold text-[13px]">
+                  {data.count} / {data.dailyGoal}
+                </span>
               </div>
-              <p className="text-white/60 text-xs">
-                {language === 'fr' ? 'Vous maîtrisez votre destin !' : language === 'es' ? '¡Controlas tu destino!' : 'You master your destiny!'}
-              </p>
+              <div
+                className="h-2 rounded-full overflow-hidden"
+                style={{ background: 'rgba(255,255,255,0.06)' }}
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${progress}%`,
+                    background: isComplete
+                      ? 'linear-gradient(90deg, #4ade80, #22c55e)'
+                      : 'linear-gradient(90deg, #d4af37, #f1d27b)',
+                  }}
+                />
+              </div>
             </div>
-          )}
 
-          {/* Action Buttons */}
-          <div className="space-y-3">
+            {/* Complete state */}
+            {isComplete && (
+              <div
+                className="p-4 rounded-2xl text-center animate-scaleIn"
+                style={{
+                  background: 'rgba(74,222,128,0.08)',
+                  border: '1px solid rgba(74,222,128,0.25)',
+                }}
+              >
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <IconCelebration size={20} color="#4ade80" />
+                  <p className="text-green-400 font-black text-base">{t.complete}</p>
+                </div>
+                <p className="text-white/35 text-xs">{t.completeSub}</p>
+              </div>
+            )}
+
+            {/* Affirm button */}
             <button
               onClick={handleRepeat}
               disabled={isComplete}
-              className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-sm transition-all ${
+              className={`w-full py-4 rounded-2xl uppercase tracking-widest text-[12px] transition-all ${
                 isComplete
-                  ? 'bg-white/5 text-white/30 cursor-not-allowed'
-                  : 'btn-gold shimmer active:scale-95 shadow-lg'
+                  ? 'text-white/20 cursor-not-allowed'
+                  : 'btn-gold shimmer glow-gold shadow-xl active:scale-[0.97]'
               }`}
+              style={isComplete ? { background: 'rgba(255,255,255,0.04)' } : {}}
             >
               {t.repeat}
             </button>
 
+            {/* Counter dots */}
+            <div className="flex justify-center gap-1.5 flex-wrap py-1">
+              {Array.from({ length: data.dailyGoal }, (_, i) => (
+                <div
+                  key={i}
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300"
+                  style={
+                    i < data.count
+                      ? {
+                          background: 'linear-gradient(135deg, #f1d27b, #d4af37)',
+                          color: '#0d1826',
+                          transform: 'scale(1.05)',
+                        }
+                      : {
+                          background: 'rgba(255,255,255,0.05)',
+                          color: 'rgba(255,255,255,0.25)',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                        }
+                  }
+                >
+                  {i + 1}
+                </div>
+              ))}
+            </div>
+
+            {/* Reset */}
             <button
               onClick={handleReset}
-              className="w-full py-3 rounded-xl border-2 border-white/10 text-white/60 font-bold uppercase tracking-wider text-xs hover:border-white/20 hover:text-white/80 transition-all active:scale-95"
+              className="w-full py-3 rounded-xl text-white/25 text-[11px] font-bold uppercase tracking-wider transition-all active:scale-95"
+              style={{ border: '1px solid rgba(255,255,255,0.08)' }}
             >
               {t.reset}
             </button>
-          </div>
-
-          {/* Counter Circles */}
-          <div className="flex justify-center gap-2 mt-8 flex-wrap">
-            {Array.from({ length: data.dailyGoal }, (_, i) => (
-              <div
-                key={i}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                  i < data.count
-                    ? 'bg-[#d4af37] text-[#1a2b48] scale-110'
-                    : 'bg-white/5 text-white/30 border border-white/10'
-                }`}
-              >
-                {i + 1}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

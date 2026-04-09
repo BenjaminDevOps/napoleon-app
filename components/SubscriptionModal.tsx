@@ -10,7 +10,7 @@ interface SubscriptionModalProps {
   onSubscribe: () => void;
 }
 
-const TERMS_URL = 'https://napoleonhillai.app/terms';
+const TERMS_URL   = 'https://napoleonhillai.app/terms';
 const PRIVACY_URL = 'https://napoleonhillai.app/privacy';
 
 const featureIcons = [IconChat, IconTarget, IconSparkles, IconStar];
@@ -24,12 +24,10 @@ const featureLabels: Record<AppLanguage, string[]> = {
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, onSubscribe }) => {
   const t = translations[lang];
   const [isRestoring, setIsRestoring] = useState(false);
+  const features = featureLabels[lang];
 
   const handlePay = () => {
     requestPurchase(lang);
-    if (typeof (window as any).CdvPurchase === 'undefined') {
-      setTimeout(() => onSubscribe(), 1500);
-    }
   };
 
   const handleRestore = () => {
@@ -38,79 +36,120 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
     restorePurchases(lang, () => {
       onSubscribe();
     });
-    setTimeout(() => setIsRestoring(false), 4000);
+    setTimeout(() => setIsRestoring(false), 5000);
   };
 
   const openUrl = (url: string) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const features = featureLabels[lang];
+  const restoringLabel =
+    lang === 'fr' ? 'Restauration…' :
+    lang === 'es' ? 'Restaurando…' :
+    'Restoring…';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="bg-white rounded-t-3xl w-full max-w-md shadow-2xl animate-slideUp pb-[env(safe-area-inset-bottom)]">
-
-        {/* Header */}
-        <div className="h-28 bg-[#1a2b48] rounded-t-3xl flex flex-col items-center justify-center gap-1">
-          <IconCrown size={32} color="#d4af37" className="mb-1" />
-          <h3 className="font-serif text-lg font-bold uppercase tracking-widest text-[#d4af37]">
-            {t.paywallTitle}
-          </h3>
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center animate-fadeIn"
+      style={{ background: 'rgba(0,0,0,0.82)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)' }}
+    >
+      <div
+        className="w-full max-w-md animate-slideUp"
+        style={{
+          background: 'linear-gradient(180deg, #111e33 0%, #0d1826 100%)',
+          borderTop: '1px solid rgba(212,175,55,0.3)',
+          borderRadius: '28px 28px 0 0',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          boxShadow: '0 -20px 60px rgba(0,0,0,0.5)',
+        }}
+      >
+        {/* ── Drag handle ─────────────────────────────────────────── */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full bg-white/20" />
         </div>
 
-        <div className="px-8 py-6">
-          {/* Features list */}
-          <ul className="space-y-3 mb-6">
-            {features.map((label, i) => {
-              const Icon = featureIcons[i];
-              return (
-                <li key={i} className="flex items-center gap-3 text-sm text-gray-700">
-                  <Icon size={18} color="#d4af37" />
-                  <span>{label}</span>
-                </li>
-              );
-            })}
-          </ul>
+        {/* ── Crown header ────────────────────────────────────────── */}
+        <div className="px-8 pt-5 pb-6 text-center">
+          <div
+            className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
+            style={{
+              background: 'radial-gradient(circle at 40% 35%, rgba(212,175,55,0.2) 0%, rgba(13,24,38,0.6) 70%)',
+              border: '1.5px solid rgba(212,175,55,0.4)',
+            }}
+          >
+            <IconCrown size={28} color="#d4af37" />
+          </div>
+          <h3 className="font-serif text-xl font-bold text-white mb-1">{t.paywallTitle}</h3>
+          <p className="text-white/40 text-xs leading-relaxed">{t.paywallBody}</p>
+        </div>
 
-          {/* Subscribe button */}
+        {/* ── Separator ───────────────────────────────────────────── */}
+        <div className="mx-8 border-t border-white/8 mb-6" />
+
+        {/* ── Features ────────────────────────────────────────────── */}
+        <ul className="px-8 space-y-4 mb-7">
+          {features.map((label, i) => {
+            const Icon = featureIcons[i];
+            return (
+              <li key={i} className="flex items-center gap-3">
+                <div
+                  className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center"
+                  style={{
+                    background: 'rgba(212,175,55,0.10)',
+                    border: '1px solid rgba(212,175,55,0.22)',
+                  }}
+                >
+                  <Icon size={15} color="#d4af37" />
+                </div>
+                <span className="text-white/75 text-sm leading-snug">{label}</span>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* ── Buttons ─────────────────────────────────────────────── */}
+        <div className="px-8 space-y-3 pb-2">
+          {/* Subscribe */}
           <button
             onClick={handlePay}
-            className="w-full bg-[#d4af37] text-[#1a2b48] font-black py-4 rounded-xl shadow-lg mb-3 uppercase tracking-widest text-sm active:scale-95 transition-transform"
+            className="w-full btn-gold shimmer glow-gold py-4 rounded-2xl uppercase tracking-widest text-[12px] shadow-2xl"
           >
             {t.subscribeBtn}
           </button>
 
-          {/* Restore purchases */}
+          {/* Restore */}
           <button
             onClick={handleRestore}
             disabled={isRestoring}
-            className="w-full py-3 rounded-xl border border-gray-200 text-gray-500 text-xs font-bold uppercase tracking-widest mb-4 active:scale-95 transition-transform disabled:opacity-50"
+            className="w-full py-3 rounded-xl text-white/35 text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-40"
+            style={{ border: '1px solid rgba(255,255,255,0.10)' }}
           >
-            {isRestoring
-              ? (lang === 'fr' ? 'Restauration...' : lang === 'es' ? 'Restaurando...' : 'Restoring...')
-              : t.restoreBtn}
+            {isRestoring ? restoringLabel : t.restoreBtn}
           </button>
+        </div>
 
-          {/* Subscription terms */}
-          <p className="text-gray-400 text-[10px] leading-relaxed text-center mb-4">
+        {/* ── Legal ───────────────────────────────────────────────── */}
+        <div className="px-8 pt-4 pb-2">
+          <p className="text-white/22 text-[10px] leading-relaxed text-center mb-3">
             {t.subscriptionTerms}
           </p>
-
-          {/* Legal links */}
           <div className="flex justify-center gap-6 mb-4">
-            <button onClick={() => openUrl(TERMS_URL)} className="text-[10px] text-gray-400 underline">
+            <button
+              onClick={() => openUrl(TERMS_URL)}
+              className="text-[10px] text-white/28 underline underline-offset-2"
+            >
               {t.termsOfService}
             </button>
-            <button onClick={() => openUrl(PRIVACY_URL)} className="text-[10px] text-gray-400 underline">
+            <button
+              onClick={() => openUrl(PRIVACY_URL)}
+              className="text-[10px] text-white/28 underline underline-offset-2"
+            >
               {t.privacyPolicy}
             </button>
           </div>
-
-          {/* Dismiss */}
           <button
             onClick={onClose}
-            className="w-full text-gray-400 text-xs font-bold uppercase tracking-widest py-2"
+            className="w-full text-white/25 text-xs font-bold uppercase tracking-widest py-2"
           >
             {t.maybeLater}
           </button>

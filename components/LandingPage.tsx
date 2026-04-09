@@ -24,43 +24,95 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#1a2b48] text-[#d4af37] px-8 text-center pt-[env(safe-area-inset-top)]">
-      {/* Background Glow */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#d4af37]/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div
+      className="flex flex-col items-center justify-center h-full text-[#d4af37] px-8 text-center relative overflow-hidden"
+      style={{
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        background: 'radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.07) 0%, #0d1826 65%)',
+        backgroundColor: '#0d1826',
+      }}
+    >
+      {/* ── Background glows ──────────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div className="absolute top-[-15%] left-[-15%] w-[55%] h-[55%] rounded-full bg-[#d4af37]/6 blur-[120px]" />
+        <div className="absolute bottom-[-15%] right-[-10%] w-[45%] h-[45%] rounded-full bg-[#d4af37]/4 blur-[100px]" />
+      </div>
 
-      {/* Portrait */}
-      <div className="mb-10 relative">
-        <div className="w-32 h-32 rounded-full border-[3px] border-[#d4af37] overflow-hidden bg-white shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=200&h=200&auto=format&fit=crop"
-            alt="The Mastermind"
-            className="w-full h-full object-cover grayscale opacity-90 scale-110"
+      {/* ── Medallion ─────────────────────────────────────────────── */}
+      <div
+        className="relative mb-8"
+        style={{ animation: 'scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.05s both' }}
+      >
+        {/* Outer decorative ring */}
+        <div
+          className="w-28 h-28 rounded-full flex items-center justify-center relative"
+          style={{
+            border: '2px solid rgba(212,175,55,0.5)',
+            background: 'radial-gradient(circle at 40% 35%, rgba(212,175,55,0.15) 0%, rgba(13,24,38,0.8) 70%)',
+          }}
+        >
+          {/* Inner ring */}
+          <div
+            className="absolute inset-[6px] rounded-full"
+            style={{ border: '1px solid rgba(212,175,55,0.2)' }}
           />
+          {/* Monogram */}
+          <div className="relative z-10 flex flex-col items-center">
+            <span
+              className="font-serif font-black text-[#d4af37] leading-none"
+              style={{ fontSize: '2.25rem', letterSpacing: '-0.02em' }}
+            >
+              NH
+            </span>
+            <div
+              className="mt-1 w-8"
+              style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent)' }}
+            />
+          </div>
         </div>
-        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#d4af37] text-[#1a2b48] text-[9px] font-black px-4 py-1.5 rounded-full tracking-widest shadow-lg whitespace-nowrap uppercase">
-          Master Mind
+        {/* Glow behind medallion */}
+        <div className="absolute inset-0 rounded-full blur-2xl bg-[#d4af37]/18 -z-10" />
+        {/* Badge */}
+        <div
+          className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-[#0d1826] text-[8px] font-black px-4 py-1 rounded-full tracking-[0.22em] uppercase whitespace-nowrap shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #f1d27b, #d4af37, #b8941f)' }}
+        >
+          The Mastermind
         </div>
       </div>
 
-      {/* Typography */}
-      <div className="max-w-xs mb-10">
-        <h1 className="font-serif text-3xl font-black mb-4 tracking-tight leading-tight uppercase text-white">
+      {/* ── Headline ──────────────────────────────────────────────── */}
+      <div style={{ animation: 'fadeInUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.2s both' }}>
+        <h1
+          className="font-serif font-black text-white uppercase leading-tight mb-3"
+          style={{ fontSize: '1.75rem', letterSpacing: '-0.01em' }}
+        >
           {t.landingTitle}
         </h1>
-        <p className="text-white/60 text-[13px] italic font-light leading-relaxed px-4">
+        <p className="text-white/45 text-[13px] italic font-light leading-relaxed px-4 mb-10">
           "{t.landingSubtitle}"
         </p>
       </div>
 
-      {/* Language */}
-      <div className="flex justify-center gap-6 mb-12 w-full max-w-[240px]">
+      {/* ── Language selector ─────────────────────────────────────── */}
+      <div
+        className="flex justify-center gap-8 mb-12"
+        style={{ animation: 'fadeInUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s both' }}
+      >
         {languages.map((l) => {
           const FlagIcon = flagComponents[l.code];
+          const isActive = selectedLang === l.code;
           return (
             <button
               key={l.code}
               onClick={() => setSelectedLang(l.code)}
-              className={`flex flex-col items-center gap-2 transition-all duration-300 ${selectedLang === l.code ? 'scale-110' : 'opacity-30 grayscale'}`}
+              className="flex flex-col items-center gap-2"
+              style={{
+                transition: 'opacity 0.25s ease, transform 0.25s ease',
+                opacity: isActive ? 1 : 0.28,
+                transform: isActive ? 'scale(1.12)' : 'scale(1)',
+              }}
             >
               <FlagIcon size={24} />
               <span className="text-[9px] font-black uppercase tracking-widest text-white">
@@ -71,10 +123,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         })}
       </div>
 
-      {/* CTA */}
+      {/* ── CTA ───────────────────────────────────────────────────── */}
       <button
         onClick={() => onStart(selectedLang)}
-        className="w-full max-w-[280px] btn-gold font-black py-4 rounded-xl shimmer active:scale-95 transition-transform uppercase tracking-widest text-[11px] flex items-center justify-center gap-3"
+        className="btn-gold shimmer glow-gold w-full max-w-[280px] py-4 rounded-2xl uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 shadow-2xl"
+        style={{ animation: 'fadeInUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.5s both' }}
       >
         <span>{t.ctaStart}</span>
         <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +135,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         </svg>
       </button>
 
-      <p className="mt-12 text-[9px] text-white/20 uppercase tracking-[0.3em] font-medium">
+      {/* ── Version ───────────────────────────────────────────────── */}
+      <p
+        className="mt-10 text-white uppercase"
+        style={{
+          fontSize: '8px',
+          letterSpacing: '0.35em',
+          opacity: 0.15,
+          animation: 'fadeIn 1s ease-out 0.9s both',
+        }}
+      >
         Professional Edition v1.1.0
       </p>
     </div>

@@ -8,119 +8,160 @@ interface ChallengeModalProps {
   onClose: () => void;
 }
 
+const i18n = {
+  en: {
+    title: 'Daily Challenge',
+    subtitle: 'Napoleon Hill',
+    loading: 'Preparing your challenge…',
+    newChallenge: 'New Challenge',
+    accept: 'Accept Challenge',
+    accepted: 'Challenge Accepted!',
+    acceptedSub: 'Take action NOW.',
+  },
+  fr: {
+    title: 'Défi du Jour',
+    subtitle: 'Napoleon Hill',
+    loading: 'Préparation de votre défi…',
+    newChallenge: 'Nouveau Défi',
+    accept: 'Accepter le Défi',
+    accepted: 'Défi Accepté !',
+    acceptedSub: 'Passez à l\'action MAINTENANT.',
+  },
+  es: {
+    title: 'Desafío del Día',
+    subtitle: 'Napoleon Hill',
+    loading: 'Preparando tu desafío…',
+    newChallenge: 'Nuevo Desafío',
+    accept: 'Aceptar Desafío',
+    accepted: '¡Desafío Aceptado!',
+    acceptedSub: 'Actúe AHORA.',
+  },
+};
+
 const ChallengeModal: React.FC<ChallengeModalProps> = ({ lang, onClose }) => {
-  const [challenge, setChallenge] = useState<string>('');
+  const t = i18n[lang];
+  const [challenge, setChallenge] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isAccepted, setIsAccepted] = useState(false);
 
-  const translations = {
-    en: {
-      title: 'Daily Challenge',
-      subtitle: 'from Napoleon Hill',
-      loading: 'Preparing your challenge...',
-      newChallenge: 'New Challenge',
-      close: 'Accept Challenge',
-      accepted: 'Challenge Accepted! Take action NOW!',
-    },
-    fr: {
-      title: 'Défi du Jour',
-      subtitle: 'par Napoleon Hill',
-      loading: 'Préparation de votre défi...',
-      newChallenge: 'Nouveau Défi',
-      close: 'Accepter le Défi',
-      accepted: 'Défi Accepté ! Passez à l\'action MAINTENANT !',
-    },
-    es: {
-      title: 'Desafío del Día',
-      subtitle: 'por Napoleon Hill',
-      loading: 'Preparando tu desafío...',
-      newChallenge: 'Nuevo Desafío',
-      close: 'Aceptar Desafío',
-      accepted: '¡Desafío Aceptado! ¡Actúe AHORA!',
-    }
-  };
-
-  const t = translations[lang];
-
-  useEffect(() => {
-    loadChallenge();
-  }, []);
+  useEffect(() => { loadChallenge(); }, []);
 
   const loadChallenge = async () => {
     setIsLoading(true);
     setIsAccepted(false);
-    const newChallenge = await generateDailyChallenge(lang);
-    setChallenge(newChallenge);
+    const result = await generateDailyChallenge(lang);
+    setChallenge(result);
     setIsLoading(false);
   };
 
   const handleAccept = () => {
     setIsAccepted(true);
-    setTimeout(() => {
-      onClose();
-    }, 2000);
+    setTimeout(() => onClose(), 2200);
   };
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn">
-      <div className="bg-gradient-to-br from-[#1a2b48] to-[#0f1a2e] rounded-2xl shadow-2xl max-w-lg w-full border-2 border-[#d4af37]/30 animate-slideUp flex flex-col max-h-[85vh]">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#d4af37] to-[#b8941f] p-6 rounded-t-2xl text-center shrink-0">
-          <div className="flex justify-center mb-2">
-            <IconTarget size={32} color="#1a2b48" />
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-5 animate-fadeIn"
+      style={{ background: 'rgba(0,0,0,0.80)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)' }}
+    >
+      <div
+        className="w-full max-w-[400px] animate-scaleIn flex flex-col"
+        style={{
+          background: 'linear-gradient(160deg, #152035 0%, #0d1826 100%)',
+          border: '1px solid rgba(212,175,55,0.25)',
+          borderRadius: '28px',
+          maxHeight: '88vh',
+          overflow: 'hidden',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.6), 0 0 40px rgba(212,175,55,0.08)',
+        }}
+      >
+        {/* ── Gold header bar ────────────────────────────────────── */}
+        <div
+          className="px-6 pt-6 pb-5 text-center shrink-0"
+          style={{ borderBottom: '1px solid rgba(212,175,55,0.15)' }}
+        >
+          <div
+            className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center"
+            style={{
+              background: 'rgba(212,175,55,0.12)',
+              border: '1px solid rgba(212,175,55,0.3)',
+            }}
+          >
+            <IconTarget size={24} color="#d4af37" />
           </div>
-          <h2 className="text-2xl font-serif font-bold text-[#1a2b48]">{t.title}</h2>
-          <p className="text-xs uppercase tracking-widest text-[#1a2b48]/70 font-bold">{t.subtitle}</p>
+          <h2 className="font-serif text-lg font-bold text-white mb-0.5">{t.title}</h2>
+          <p
+            className="text-[9px] uppercase tracking-[0.25em] font-bold"
+            style={{ color: 'rgba(212,175,55,0.6)' }}
+          >
+            {t.subtitle}
+          </p>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        {/* ── Content ────────────────────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto px-6 py-5">
           {isAccepted ? (
-            <div className="flex flex-col items-center justify-center py-12">
-              <div className="mb-4 animate-bounce">
-                <IconCheck size={64} color="#4ade80" />
+            <div className="flex flex-col items-center justify-center py-8 animate-scaleIn">
+              <div className="mb-4">
+                <IconCheck size={56} color="#4ade80" />
               </div>
-              <p className="text-[#d4af37] text-xl font-bold text-center">{t.accepted}</p>
+              <p className="text-white font-serif text-xl font-bold text-center mb-2">{t.accepted}</p>
+              <p className="text-white/40 text-sm text-center">{t.acceptedSub}</p>
             </div>
           ) : isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12">
+            <div className="flex flex-col items-center justify-center py-10">
               <div className="flex gap-2 mb-4">
-                <div className="w-3 h-3 bg-[#d4af37] rounded-full animate-bounce"></div>
-                <div className="w-3 h-3 bg-[#d4af37] rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                <div className="w-3 h-3 bg-[#d4af37] rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                <div className="w-2.5 h-2.5 bg-[#d4af37] rounded-full animate-bounce" />
+                <div className="w-2.5 h-2.5 bg-[#d4af37] rounded-full animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2.5 h-2.5 bg-[#d4af37] rounded-full animate-bounce [animation-delay:0.4s]" />
               </div>
-              <p className="text-white/60 text-sm">{t.loading}</p>
+              <p className="text-white/35 text-sm">{t.loading}</p>
             </div>
           ) : (
-            <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-              <p className="text-white/90 text-base leading-relaxed whitespace-pre-line">
+            <div
+              className="rounded-2xl p-5 animate-fadeInUp"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.07)',
+              }}
+            >
+              <p className="text-white/85 text-[15px] leading-relaxed whitespace-pre-line">
                 {challenge}
               </p>
             </div>
           )}
         </div>
 
-        {/* Footer */}
-        <div className="p-6 shrink-0 space-y-3 border-t border-white/10">
-          {!isLoading && !isAccepted && (
-            <button
-              onClick={loadChallenge}
-              className="w-full py-3 bg-white/5 hover:bg-white/10 text-[#d4af37] border border-[#d4af37]/40 rounded-xl font-bold text-sm uppercase tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2"
-            >
-              <IconRefresh size={16} color="#d4af37" />
-              {t.newChallenge}
-            </button>
-          )}
-          {!isAccepted && (
+        {/* ── Footer ─────────────────────────────────────────────── */}
+        {!isAccepted && (
+          <div
+            className="px-6 py-5 shrink-0 space-y-3"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+          >
+            {!isLoading && (
+              <button
+                onClick={loadChallenge}
+                className="w-full py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all active:scale-95 flex items-center justify-center gap-2"
+                style={{
+                  background: 'rgba(212,175,55,0.08)',
+                  border: '1px solid rgba(212,175,55,0.25)',
+                  color: '#d4af37',
+                }}
+              >
+                <IconRefresh size={15} color="#d4af37" />
+                {t.newChallenge}
+              </button>
+            )}
             <button
               onClick={handleAccept}
-              className="w-full btn-gold py-4 rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
+              disabled={isLoading}
+              className="w-full btn-gold shimmer py-4 rounded-2xl uppercase tracking-[0.18em] text-sm shadow-xl flex items-center justify-center gap-2 disabled:opacity-40"
             >
-              <IconCheck size={18} color="#1a2b48" />
-              {t.close}
+              <IconCheck size={17} color="#0d1826" />
+              {t.accept}
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
