@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AppLanguage } from '../types';
 import { translations } from '../translations';
 import { IconFlagUS, IconFlagFR, IconFlagES } from './Icons';
+import logo from '../assets/icon.png';
 
 interface LandingPageProps {
   onStart: (lang: AppLanguage) => void;
@@ -39,47 +40,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         <div className="absolute bottom-[-15%] right-[-10%] w-[45%] h-[45%] rounded-full bg-[#d4af37]/4 blur-[100px]" />
       </div>
 
-      {/* ── Medallion ─────────────────────────────────────────────── */}
+      {/* ── Logo ──────────────────────────────────────────────────── */}
       <div
         className="relative mb-8"
         style={{ animation: 'scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.05s both' }}
       >
-        {/* Outer decorative ring */}
-        <div
-          className="w-28 h-28 rounded-full flex items-center justify-center relative"
-          style={{
-            border: '2px solid rgba(212,175,55,0.5)',
-            background: 'radial-gradient(circle at 40% 35%, rgba(212,175,55,0.15) 0%, rgba(13,24,38,0.8) 70%)',
-          }}
-        >
-          {/* Inner ring */}
-          <div
-            className="absolute inset-[6px] rounded-full"
-            style={{ border: '1px solid rgba(212,175,55,0.2)' }}
-          />
-          {/* Monogram */}
-          <div className="relative z-10 flex flex-col items-center">
-            <span
-              className="font-serif font-black text-[#d4af37] leading-none"
-              style={{ fontSize: '2.25rem', letterSpacing: '-0.02em' }}
-            >
-              NH
-            </span>
-            <div
-              className="mt-1 w-8"
-              style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent)' }}
-            />
-          </div>
-        </div>
-        {/* Glow behind medallion */}
-        <div className="absolute inset-0 rounded-full blur-2xl bg-[#d4af37]/18 -z-10" />
-        {/* Badge */}
-        <div
-          className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-[#0d1826] text-[8px] font-black px-4 py-1 rounded-full tracking-[0.22em] uppercase whitespace-nowrap shadow-lg"
-          style={{ background: 'linear-gradient(135deg, #f1d27b, #d4af37, #b8941f)' }}
-        >
-          The Mastermind
-        </div>
+        <img
+          src={logo}
+          alt="The Mastermind"
+          className="w-36 h-36 object-contain drop-shadow-2xl"
+        />
+        {/* Subtle glow */}
+        <div className="absolute inset-0 rounded-full blur-2xl bg-[#d4af37]/15 -z-10" />
       </div>
 
       {/* ── Headline ──────────────────────────────────────────────── */}
