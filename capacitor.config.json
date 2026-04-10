@@ -2,7 +2,6 @@
   "appId": "com.napoleonhill.app",
   "appName": "Napoleon Hill AI",
   "webDir": "www",
-  "bundledWebRuntime": false,
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 2000,
