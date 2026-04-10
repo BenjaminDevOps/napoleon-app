@@ -131,7 +131,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
               className={`max-w-[78%] px-4 py-3 text-[14px] leading-relaxed shadow-sm ${
                 msg.role === 'user'
                   ? 'rounded-2xl rounded-br-sm text-white'
-                  : 'rounded-2xl rounded-bl-sm text-white/88'
+                  : 'rounded-2xl rounded-bl-sm text-white'
               }`}
               style={
                 msg.role === 'user'
@@ -190,8 +190,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
           <div
             className="flex gap-2 items-center rounded-2xl px-4 py-1 transition-all duration-200"
             style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1.5px solid rgba(212,175,55,0.3)',
+              background: 'rgba(255,255,255,0.12)',
+              border: '1.5px solid rgba(255,255,255,0.18)',
             }}
             onFocus={() => {}}
           >
@@ -201,7 +201,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ user, onMessageSent, onUpgrade,
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder={t.placeholder}
-              className="flex-1 bg-transparent border-none focus:outline-none text-white text-base py-3 placeholder:text-white/25 placeholder:font-light"
+              className="flex-1 bg-transparent border-none focus:outline-none text-white text-base py-3 placeholder:text-white/40 placeholder:font-light"
             />
             <button
               onClick={handleSend}
