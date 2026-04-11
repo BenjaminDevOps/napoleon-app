@@ -25,6 +25,7 @@
     }
   },
   "ios": {
+    "minVersion": "15.0",
     "contentInset": "never",
     "scrollEnabled": false,
     "allowsLinkPreview": false,
