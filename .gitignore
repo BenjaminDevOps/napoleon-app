@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Build output — toujours généré en local (npm run build)
+# pour que VITE_GEMINI_API_KEY de .env.local soit intégré dans le bundle
+www/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
