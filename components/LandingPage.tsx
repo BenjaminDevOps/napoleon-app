@@ -30,7 +30,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       style={{
         paddingTop: 'env(safe-area-inset-top)',
         paddingBottom: 'env(safe-area-inset-bottom)',
-        background: 'radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.07) 0%, #0d1826 65%)',
+        background: '#0d1826',
         backgroundColor: '#0d1826',
       }}
     >
