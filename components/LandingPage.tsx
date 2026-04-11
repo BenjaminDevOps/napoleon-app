@@ -48,10 +48,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         <img
           src={logo}
           alt="The Mastermind"
-          className="w-36 h-36 object-contain drop-shadow-2xl"
+          className="w-36 h-36 object-contain"
+          style={{ background: 'transparent', display: 'block' }}
         />
-        {/* Subtle glow */}
-        <div className="absolute inset-0 rounded-full blur-2xl bg-[#d4af37]/15 -z-10" />
+        {/* Gold glow derrière le logo */}
+        <div className="absolute inset-0 blur-2xl bg-[#d4af37]/15 -z-10" />
       </div>
 
       {/* ── Headline ──────────────────────────────────────────────── */}
