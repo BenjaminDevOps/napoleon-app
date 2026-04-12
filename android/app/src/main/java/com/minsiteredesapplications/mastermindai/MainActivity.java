@@ -1,4 +1,4 @@
-package com.napoleonhill.app;
+package com.minsiteredesapplications.mastermindai;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.napoleonhill.app"
+    namespace "com.minsiteredesapplications.mastermindai"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.napoleonhill.app"
+        applicationId "com.minsiteredesapplications.mastermindai"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
