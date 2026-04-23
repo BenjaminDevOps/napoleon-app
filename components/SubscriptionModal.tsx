@@ -130,6 +130,17 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
           >
             {t.maybeLater}
           </button>
+          <p className="text-center text-[9px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.18)' }}>
+            By subscribing you agree to our{' '}
+            <a
+              href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'underline' }}
+            >
+              Terms of Use (EULA)
+            </a>
+          </p>
         </div>
       </div>
     </div>
