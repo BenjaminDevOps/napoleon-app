@@ -12,9 +12,5 @@ export default defineConfig({
   },
   server: {
     port: 3000
-  },
-  // Injecte la clé API de l'environnement au moment du build
-  define: {
-    'process.env.DEEPSEEK_API_KEY': JSON.stringify(process.env.DEEPSEEK_API_KEY)
   }
 });
