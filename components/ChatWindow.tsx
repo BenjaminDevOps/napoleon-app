@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Message, UserProfile } from '../types';
-import { generateNapoleonResponse } from '../services/geminiService';
+import { generateNapoleonResponse } from '../services/deepseekService';
 import { translations } from '../translations';
 
 interface ChatWindowProps {
