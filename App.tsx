@@ -13,16 +13,12 @@ const App: React.FC = () => {
     return saved ? JSON.parse(saved) : { name: 'Guest', isPremium: false, messageCount: 0, language: 'en' };
   });
   const [showPaywall, setShowPaywall] = useState(false);
-  const [productPrice, setProductPrice] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    initBilling(
-      () => {
-        setUser(prev => ({ ...prev, isPremium: true }));
-        setShowPaywall(false);
-      },
-      (price) => setProductPrice(price)
-    );
+    initBilling(() => {
+      setUser(prev => ({ ...prev, isPremium: true }));
+      setShowPaywall(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -58,11 +54,10 @@ const App: React.FC = () => {
       />
       
       {showPaywall && (
-        <SubscriptionModal
+        <SubscriptionModal 
           lang={user.language}
-          price={productPrice}
-          onClose={() => setShowPaywall(false)}
-          onSubscribe={() => setShowPaywall(false)}
+          onClose={() => setShowPaywall(false)} 
+          onSubscribe={() => setShowPaywall(false)} 
         />
       )}
     </div>
