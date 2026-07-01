@@ -15,6 +15,6 @@ export default defineConfig({
   },
   // Injecte la clé API de l'environnement au moment du build
   define: {
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
+    'process.env.DEEPSEEK_API_KEY': JSON.stringify(process.env.DEEPSEEK_API_KEY)
   }
 });
