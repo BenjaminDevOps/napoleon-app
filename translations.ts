@@ -14,7 +14,9 @@ export const translations: Record<AppLanguage, any> = {
     unlock: "Unlock the Master Mind",
     paywallTitle: "Master Mind Access",
     paywallBody: "Your daily free insights are exhausted. To continue building your Million-Dollar Mindset, join our Master Mind group.",
-    subscribeBtn: "Subscribe Now ($9.99/mo)",
+    subscribeBtn: "Subscribe Now",
+    defaultPrice: "$9.99",
+    pricePeriod: "/mo",
     maybeLater: "Maybe Later"
   },
   fr: {
@@ -29,7 +31,9 @@ export const translations: Record<AppLanguage, any> = {
     unlock: "Débloquer le Master Mind",
     paywallTitle: "Accès Master Mind",
     paywallBody: "Vos conseils gratuits sont épuisés. Pour continuer à bâtir votre mentalité de millionnaire, rejoignez notre groupe Master Mind.",
-    subscribeBtn: "S'abonner (9,99€/mois)",
+    subscribeBtn: "S'abonner",
+    defaultPrice: "9,99€",
+    pricePeriod: "/mois",
     maybeLater: "Plus tard"
   },
   es: {
@@ -44,7 +48,9 @@ export const translations: Record<AppLanguage, any> = {
     unlock: "Desbloquear Master Mind",
     paywallTitle: "Acceso Master Mind",
     paywallBody: "Sus consejos gratuitos diarios se han agotado. Para seguir construyendo su mentalidad de éxito, únase a nuestro grupo.",
-    subscribeBtn: "Suscribirse ($9.99/mes)",
+    subscribeBtn: "Suscribirse",
+    defaultPrice: "$9.99",
+    pricePeriod: "/mes",
     maybeLater: "Más tarde"
   }
 };

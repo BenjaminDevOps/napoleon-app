@@ -7,7 +7,10 @@ declare const CdvPurchase: any;
 
 export const PRODUCT_ID = 'sub_mastermind_monthly';
 
-export const initBilling = (onPurchaseSuccess: () => void) => {
+export const initBilling = (
+  onPurchaseSuccess: () => void,
+  onProductReady?: (price: string | undefined) => void
+) => {
   if (typeof CdvPurchase === 'undefined') {
     console.warn("CdvPurchase (Store) not available - check if plugin is installed and running on device.");
     return;
@@ -42,6 +45,7 @@ export const initBilling = (onPurchaseSuccess: () => void) => {
     if (product && product.owned) {
       onPurchaseSuccess();
     }
+    onProductReady?.(product?.pricing?.price);
   });
 };
 

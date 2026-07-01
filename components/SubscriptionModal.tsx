@@ -6,12 +6,14 @@ import { translations } from '../translations';
 
 interface SubscriptionModalProps {
   lang: AppLanguage;
+  price?: string;
   onClose: () => void;
   onSubscribe: () => void;
 }
 
-const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, onSubscribe }) => {
+const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, price, onClose, onSubscribe }) => {
   const t = translations[lang];
+  const priceLabel = `${price ?? t.defaultPrice}${t.pricePeriod}`;
 
   const handlePay = () => {
     requestPurchase();
@@ -36,7 +38,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
             onClick={handlePay}
             className="w-full bg-[#d4af37] text-[#1a2b48] font-black py-4 rounded-xl shadow-lg mb-4 uppercase tracking-widest text-sm"
           >
-            {t.subscribeBtn}
+            {t.subscribeBtn} ({priceLabel})
           </button>
           
           <button onClick={onClose} className="text-gray-400 text-xs font-bold uppercase tracking-widest">
