@@ -15,4 +15,9 @@ export interface UserProfile {
   language: AppLanguage;
 }
 
-export const MAX_FREE_MESSAGES = 5;
+// Mode développement : détecté par variable d'environnement
+// Pour activer le mode dev, créez un fichier .env.local avec: VITE_DEV_MODE=true
+export const IS_DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
+// Limite de messages gratuits avant abonnement - TOUJOURS 8 en production
+export const MAX_FREE_MESSAGES = 8;

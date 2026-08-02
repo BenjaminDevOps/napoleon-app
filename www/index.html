@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a2b48">
-    
     <title>Napoleon Hill AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="./assets/icon-o9uUroSX.png">
+    <link rel="manifest" href="./manifest.json">
     <style>
       /* Empêcher tout flash blanc : le fond est bleu avant même le chargement de React */
       html, body {
@@ -19,16 +21,40 @@
         height: 100%;
         width: 100%;
         overflow: hidden;
+        font-family: 'Inter', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
       }
       #root {
         height: 100%;
         background-color: #1a2b48;
       }
-      .font-serif { font-family: 'Playfair Display', serif; }
-      .btn-gold {
-        background: linear-gradient(135deg, #f1d27b 0%, #d4af37 100%);
-        color: #1a2b48;
+      .font-serif {
+        font-family: 'Playfair Display', serif;
       }
+      .safe-area-inset {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d4af37;
+        border-radius: 10px;
+      }
+
+      /* Bouton Gold Premium */
+      .btn-gold {
+        background: linear-gradient(135deg, #d4af37 0%, #f1d27b 50%, #d4af37 100%);
+        color: #1a2b48;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      }
+
+      /* Effet de brillance */
       .shimmer {
         position: relative;
         overflow: hidden;
@@ -45,24 +71,31 @@
         0% { transform: translateX(-150%) rotate(45deg); }
         100% { transform: translateX(150%) rotate(45deg); }
       }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.2s ease-out;
+      }
+      .animate-slideUp {
+        animation: slideUp 0.3s ease-out;
+      }
     </style>
-
-<link rel="stylesheet" href="/index.css">
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "vite": "https://esm.sh/vite@^7.3.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
-  }
-}
-</script>
-  <script type="module" crossorigin src="./assets/index-CF2Hrbv5.js"></script>
-</head>
+    <link rel="stylesheet" href="./index.css">
+    <script type="module" crossorigin src="./assets/index-NnoQhrAH.js"></script>
+  </head>
   <body>
     <div id="root"></div>
-</body>
+  </body>
 </html>
