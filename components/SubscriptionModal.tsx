@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { requestPurchase } from '../services/billingService';
+import { requestPurchase, isNativeBillingAvailable } from '../services/billingService';
 import { AppLanguage } from '../types';
 import { translations } from '../translations';
 
@@ -15,7 +15,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ lang, onClose, on
 
   const handlePay = () => {
     requestPurchase();
-    if (!(window as any).store) {
+    // Simulation uniquement en navigateur (pas de plugin natif) - jamais sur un vrai appareil.
+    // Sur appareil réel, isPremium n'est activé que par billingService après vérification réelle de l'achat.
+    if (!isNativeBillingAvailable()) {
       setTimeout(() => onSubscribe(), 2000);
     }
   };

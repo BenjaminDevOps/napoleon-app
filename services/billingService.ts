@@ -11,6 +11,9 @@ declare const CdvPurchase: any;
 // ID forfait de base dans Google Play Console: 1-mastermind-monthly
 export const PRODUCT_ID = 'sub_mastermind_monthly';
 
+// Vrai uniquement si le plugin natif est chargé (appareil réel) - jamais dans un navigateur
+export const isNativeBillingAvailable = (): boolean => typeof CdvPurchase !== 'undefined';
+
 export const initBilling = (onPurchaseSuccess: () => void) => {
   if (typeof CdvPurchase === 'undefined') {
     return;
