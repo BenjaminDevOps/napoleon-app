@@ -256,9 +256,8 @@ Une fois les tests validés :
 ## 💡 Astuce
 
 Pour accélérer les tests :
-1. Mettre `VITE_DEV_MODE=false` dans `.env.local` pour tester le vrai flow du paywall
-2. Réduire temporairement `MAX_FREE_MESSAGES` à 2 dans `types.ts`
-3. Rebuild et tester
+1. Réduire temporairement `MAX_FREE_MESSAGES` à 2 dans `types.ts`
+2. Rebuild et tester
 
 ---
 

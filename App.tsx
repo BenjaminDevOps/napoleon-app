@@ -56,27 +56,16 @@ const App: React.FC = () => {
   };
 
   const incrementMessageCount = () => {
-    // Log pour debugging
-    console.log('[Message Count Debug]', {
-      currentCount: user.messageCount,
-      limit: MAX_FREE_MESSAGES,
-      isPremium: user.isPremium
-    });
-
     // Seuls les utilisateurs premium peuvent bypasser la limite
     if (user.isPremium) {
-      console.log('[Message Count] Bypassing limit (premium user)');
       return true;
     }
 
-    // Si on a déjà atteint ou dépassé la limite de 8 messages
     if (user.messageCount >= MAX_FREE_MESSAGES) {
-      console.log('[Message Count] Limit reached, showing paywall');
       setShowPaywall(true);
       return false;
     }
 
-    console.log('[Message Count] Incrementing:', user.messageCount, '→', user.messageCount + 1);
     setUser(prev => ({ ...prev, messageCount: prev.messageCount + 1 }));
     return true;
   };
